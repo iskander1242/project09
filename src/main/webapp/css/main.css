@@ -1,0 +1,38 @@
+.loading{
+	display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 0, 0, 0, 0.5 ) 
+                url('../img/loading.gif') 
+                50% 50% 
+                no-repeat;
+}
+textarea{
+	width:90%!important;
+	height: 100px!important;
+}
+.input-large{
+	width:90%!important;
+}
+input:not([type='radio'],[class='simpleInput']){
+	width:90%!important;
+}
+.div-as-textarea{
+	overflow:auto;
+	width:92%;
+	height:100px;
+	border:1px solid #D3D3D3;
+	color:#696969;
+	margin: 5px;
+}
+table{
+	table-layout: fixed!important;
+}
+.test-style{
+	table-layout: fixed;
+}
+

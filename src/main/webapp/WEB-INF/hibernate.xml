@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        				   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+					       http://www.springframework.org/schema/context  
+					       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+					       http://www.springframework.org/schema/mvc
+        				   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        				   http://www.springframework.org/schema/tx
+						   http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- Hibernate session factory -->
+	<context:annotation-config />
+	<context:component-scan base-package="by.belisa.entity" />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven proxy-target-class="true"
+		transaction-manager="transactionManager" />
+
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- <prop key="hibernate.current_session_context_class">thread</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+
+		<property name="annotatedClasses">
+			<list>
+				<value>by.belisa.entity.Anketa</value>
+				<value>by.belisa.entity.User</value>
+				<value>by.belisa.entity.Role</value>
+				<value>by.belisa.entity.Organization</value>
+				<value>by.belisa.entity.UchStepeni</value>
+				<value>by.belisa.entity.UchZvaniy</value>
+				<value>by.belisa.entity.VidUchStepeni</value>
+				<value>by.belisa.entity.VidUchZvaniy</value>
+				<value>by.belisa.entity.VidOrg</value>
+				<value>by.belisa.entity.Okogu</value>
+				<value>by.belisa.entity.SII</value>
+				<value>by.belisa.entity.SIIType</value>
+				<value>by.belisa.entity.OrgInfo</value>
+				<value>by.belisa.entity.ANO</value>
+				<value>by.belisa.entity.GirIntd</value>
+				<value>by.belisa.entity.GirProducts</value>
+				<value>by.belisa.entity.News</value>
+				<value>by.belisa.entity.FullNews</value>
+				<value>by.belisa.entity.Country</value>
+				<value>by.belisa.entity.NewTech</value>
+				<value>by.belisa.entity.Services</value>
+			</list>
+		</property>
+
+	</bean>
+
+</beans>

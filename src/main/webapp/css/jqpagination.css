@@ -1,0 +1,86 @@
+.pagination {
+  display: inline-block!important;
+  border: 1px solid #CDCDCD!important;
+  border-radius: 3px!important; }
+
+.pagination a {
+  display: block!important;
+  float: left!important;
+  width: 20px!important;
+  height: 20px!important;
+  outline: none!important;
+  border-right: 1px solid #CDCDCD!important;
+  border-left: 1px solid #CDCDCD!important;
+  color: #555555!important;
+  vertical-align: middle!important;
+  text-align: center!important;
+  text-decoration: none!important;
+  font-weight: bold!important;
+  font-size: 16px!important;
+  font-family: Times, 'Times New Roman', Georgia, Palatino!important;
+  /* ATTN: need a better font stack */
+  background-color: #f3f3f3!important;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, lightgrey))!important;
+  background-image: -webkit-linear-gradient(#f3f3f3, lightgrey)!important;
+  background-image: linear-gradient(#f3f3f3, lightgrey)!important; }
+  .pagination a:hover, .pagination a:focus, .pagination a:active {
+    background-color: #cecece!important;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e4e4e4), color-stop(100%, #cecece))!important;
+    background-image: -webkit-linear-gradient(#e4e4e4, #cecece)!important;
+    background-image: linear-gradient(#e4e4e4, #cecece)!important; }
+  .pagination a.disabled, .pagination a.disabled:hover, .pagination a.disabled:focus, .pagination a.disabled:active {
+    background-color: #f3f3f3!important;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, lightgrey))!important;
+    background-image: -webkit-linear-gradient(#f3f3f3, lightgrey)!important;
+    background-image: linear-gradient(#f3f3f3, lightgrey)!important;
+    color: #A8A8A8!important;
+    cursor: default!important; }
+
+.pagination a:first-child {
+  border: none!important;
+  border-radius: 2px 0 0 2px!important; }
+
+.pagination a:last-child {
+  border: none!important;
+  border-radius: 0 2px 2px 0!important; }
+
+.pagination input {
+  float: left!important;
+  margin: 0!important;
+  padding: 0!important;
+  width: 120px!important;
+  height: 20px!important;
+  outline: none!important;
+  border: none!important;
+  vertical-align: middle!important;
+  text-align: center!important; }
+
+/* gigantic class for demo purposes */
+.gigantic.pagination {
+  margin: 30px 0!important; }
+
+.gigantic.pagination a {
+  height: 60px!important;
+  width: 60px!important;
+  font-size: 50px!important;
+  line-height: 50px!important; }
+
+.gigantic.pagination input {
+  width: 300px!important;
+  height: 60px!important;
+  font-size: 30px!important; }
+
+/* log element for demo purposes */
+.log {
+  display: none!important;
+  background-color: #EDEDED!important;
+  border: 1px solid #B4B4B4!important;
+  height: 300px!important;
+  width: 524px!important;
+  overflow: auto!important;
+  margin-left: 0!important;
+  list-style: none!important;
+  padding: 10px!important; }
+  .log li {
+    margin-top: 0!important;
+    margin-bottom: 5px!important; }
