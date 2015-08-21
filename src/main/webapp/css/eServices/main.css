@@ -1,0 +1,16 @@
+@import url(../jquery.datepick.css);
+@import url(../chosen.min.css);
+textarea{
+	width:90%!important;
+	height: 100px!important;
+}
+.input-large{
+	width:90%!important;
+}
+input:not([type='radio']){
+	width:90%!important;
+}
+
+.aui-field-select{
+	width:90%!important;
+}

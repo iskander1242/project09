@@ -28,12 +28,14 @@ import by.belisa.bean.AnketaDTO;
 import by.belisa.entity.ANO;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
+import by.belisa.entity.Services;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
 import by.belisa.entity.User;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
+import by.belisa.service.EServicesService;
 import by.belisa.service.OrgService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
@@ -63,7 +65,12 @@ public class EServicesController {
 	private UchZvaniyService uchZvaniyService;
 	@Autowired
 	@Qualifier("orgService")
-	private OrgService orgService;	
+	private OrgService orgService;
+	
+	
+	@Autowired
+	@Qualifier("eServicesService")	
+	private EServicesService eServicesService;
 
 	@RenderMapping
 	public String renderView(Model model, PortletRequest request)
@@ -74,16 +81,7 @@ public class EServicesController {
 			if (user != null) {
 				long pk = user.getPrimaryKey();
 				anketaDTO = anketaService.getDTO(pk);
-				if (anketaDTO.getId() == 0) {
-					anketaDTO.setEmail(user.getEmailAddress());
-//					anketaDTO.setFullFio(user.getLastName() + " "
-//							+ user.getFirstName() + " " + user.getMiddleName());
-//					anketaDTO.setFio(user.getLastName() + " "
-//							+ user.getFirstName().charAt(0) + "."
-//							+ user.getMiddleName().charAt(0) + ".");
-					anketaDTO.setName(user.getFirstName());
-					anketaDTO.setSurname(user.getLastName());
-					anketaDTO.setPatronymic(user.getMiddleName());
+				if (anketaDTO.getId() == 0) {				
 					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 					anketaDTO.setBirthday(df.format(user.getBirthday()));
 				}
@@ -99,37 +97,13 @@ public class EServicesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		List<UchStepeni> uchStepeniList = uchStepeniService.getAll();
-		List<UchZvaniy> uchZvaniyList = uchZvaniyService.getAll();
 		List<Organization> orgList = orgService.getAll();
-		model.addAttribute("uchStepeniList", uchStepeniList);
-		model.addAttribute("uchZvaniyList", uchZvaniyList);
-		model.addAttribute("orgList", orgList);
+		
+		List<Services> servicesList =eServicesService.getAllbyPublication(new Long(1));	
+		model.addAttribute("servicesList", servicesList);
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
-	}
-	
-	@ActionMapping
-	public void getFormData1(@ModelAttribute AnketaDTO anketaDTO,
-			ActionRequest aRequest, Model model) throws ServiceException,
-			PortalException, SystemException, ParseException, DaoException {
-//		long pk = PortalUtil.getUser(aRequest).getUserId();
-//		anketaDTO.setId(pk);
-//		anketaDTO.setFullFio(anketaDTO.getSurname() + " "
-//		+ anketaDTO.getName() + " " + anketaDTO.getPatronymic());
-//		anketaDTO.setFio(anketaDTO.getSurname() + " "
-//		+ anketaDTO.getName().charAt(0) + "."
-//		+ anketaDTO.getPatronymic().charAt(0) + ".");
-//		anketaService.saveOrUpdate(anketaDTO);
-//		User user = userService.get(pk);
-//		
-//		user.setFirstName(anketaDTO.getName());
-//		user.setMiddleName(anketaDTO.getPatronymic());
-//		user.setLastName(anketaDTO.getSurname());
-//		user.setGreeting("Welcome "+anketaDTO.getSurname()+" "+anketaDTO.getName());
-//		userService.update(user);
-		model.addAttribute("save_result", "ok");
-	}
+	}	
 	
 	@ResourceMapping
 	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{
@@ -137,14 +111,14 @@ public class EServicesController {
 		
 		     ANO ano = new ANO();
 		     OrgInfo oi=new OrgInfo();
-		     oi.setCity("Минск11111");
-		     oi.setNameRus("ИППС11111");
+		     oi.setCity("Минск");
+		     oi.setNameRus("ИППС");
 		     ano.setOrg(oi);
 		 
 			 ANO ano1 = new ANO();
 			 OrgInfo oi1=new OrgInfo();
-			 oi1.setCity("Минск1");
-			 oi1.setNameRus("ИППС1");
+			 oi1.setCity("Минск");
+			 oi1.setNameRus("БЕЛИСА");
 			 ano1.setOrg(oi1);
 			 
 			 List<ANO> arr=new ArrayList<ANO>();

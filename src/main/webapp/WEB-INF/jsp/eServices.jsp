@@ -43,7 +43,7 @@
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:input name="birthday" label="DTO" value="${anketa.birthday}"
+	<aui:input name="birthday" label="DTO"  value="${anketa.birthday}"
 		bean="anketa">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
@@ -57,43 +57,38 @@
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:select name="orgId" class="chosen" label="Организация">
+	<aui:select name="orgId" class="chosen" label="Организация" onchange="showTeams(this.value);">
 		<aui:option value=""></aui:option>
-		<c:forEach var="i" items="${orgList}">
+		<c:forEach var="i" items="${servicesList}">
 			<aui:option value="${i.id}" label="${i.name}"
 				selected="${i.id==anketa.orgId}"></aui:option>
 		</c:forEach>
 	</aui:select>
-	<br />
-
-
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Показать данные" />
-
-		</div>
-	</aui:button-row>
-	<table>
-		<tr>
-			<td>УНП</td>
-			<td><input id="unpInputId" type="text" class='simpleInput' /></td>
-			<td><a id="checkBtn" class="btn btn-primary">Проверить</a></td>
+	
+	
+	
+	<br/>	
+   <table>
+		<tr>		
+			<td><a id="checkBtn" class="btn btn-primary">Данные по услуге</a></td>
+			<td><input class="wert" type="button" onclick="asd();">1111</input></td>
 		</tr>
-	</table>
+	</table> 
+	
+
 </aui:form>
 <div id="notFoundResult" style="display: none">
-	<p>Организация не включена в реестр АНО</p>
+	<p>Данные не найдены</p>
 </div>
-
-
+    <h5>РАСПРЕДЕЛЕНИЕ РАБОТ ПРОШЕДШИХ ГОСУДАРСТВЕННУЮ РЕГИСТРАЦИЮ</h5>
 	<table id="ano-table"
 		class="table table-bordered table-striped table-hover">	
 			<thead>
 				<tr>
-					<td>ID</td>
-					<td>Name</td>
-					<td>Company</td>
-					<td>Start Date</td>
+					<td>Источник финансирования научной деятельности</td>
+					<td>Количество зарегистрированных работ</td>
+					<td>Количество организаций-исполнителей</td>
+					<td>Количество организаций-заказчиков</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -102,24 +97,40 @@
 	</table>
 <portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
 <aui:script>
-$(document).ready(function() {
+$(document).ready(function() {	
 	
+	$('.disbl').attr('disabled', 'disabled');
+	
+	//$('.aui-field-select').on("change", showTeams);
+
+	$('select').chosen({
+		no_results_text : "Извините, нет совпадений!",
+		placeholder_text_single : "Выберите из списка...",
+		placeholder_text_multiple : "Выберите нужные пункты...",
+		width : '90%'
+	});
 	
 	$('#checkBtn').click(function(){
+		alert(showTeams.res);
 		$('#notFoundResult').css('display','none');
 		$('#foundResult').css('display','none');
-		var data = {"unp":$('#unpInputId').val()};  		  	
+		//var data = {"unp":$('#unpInputId').val()}; 
+		var data = {"unp": showTeams.res};
 		$.ajax({
 		   url: '${checkUnpUrl}',
 		   dataType: 'json',
 		   data: data,
 		   success: function(data) { LoadCustomers(data); }
 		 });
-		 
-		
-		
 	});
-});
+}); 
+
+
+function showTeams(param){
+	                     
+	showTeams.res = param;      
+	                     
+	              }
 
 function LoadCustomers(data) {	
 	var tbody = $("#ano-table > tbody").html("");
@@ -129,6 +140,10 @@ function LoadCustomers(data) {
 					+ "</td><td>" + 1 + "</td><td>" + 1 + "</td></tr>";
 			$(rowText).appendTo(tbody);			
 		}
-	}
+	}	
+	
+	
+
+
 </aui:script>
 
