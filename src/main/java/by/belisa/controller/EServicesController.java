@@ -2,6 +2,7 @@ package by.belisa.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.Provider.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import by.belisa.bean.AnketaDTO;
+import by.belisa.bean.ServiceData;
 import by.belisa.entity.ANO;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
@@ -35,7 +37,8 @@ import by.belisa.entity.User;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
-import by.belisa.service.EServicesService;
+import by.belisa.service.EServicesServiceOracle;
+import by.belisa.service.EServicesServiceSqlServer;
 import by.belisa.service.OrgService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
@@ -65,12 +68,13 @@ public class EServicesController {
 	private UchZvaniyService uchZvaniyService;
 	@Autowired
 	@Qualifier("orgService")
-	private OrgService orgService;
-	
-	
+	private OrgService orgService;	
 	@Autowired
-	@Qualifier("eServicesService")	
-	private EServicesService eServicesService;
+	@Qualifier("eServicesServiceOracle")	
+	private EServicesServiceOracle eServicesServiceOracle;
+	@Autowired
+	@Qualifier("eServicesServiceSqlServer")	
+	private EServicesServiceSqlServer eServicesServiceSqlServers;
 
 	@RenderMapping
 	public String renderView(Model model, PortletRequest request)
@@ -99,14 +103,16 @@ public class EServicesController {
 		}
 		List<Organization> orgList = orgService.getAll();
 		
-		List<Services> servicesList =eServicesService.getAllbyPublication(new Long(1));	
+		List<Services> servicesList =eServicesServiceOracle.getAllbyPublication(new Long(1));	
 		model.addAttribute("servicesList", servicesList);
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
 	}	
 	
 	@ResourceMapping
-	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{
+	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
+		ServiceData  serviceData=eServicesServiceSqlServers.getExt();
+		
 		String unp = req.getParameter("unp");
 		
 		     ANO ano = new ANO();
@@ -124,13 +130,22 @@ public class EServicesController {
 			 List<ANO> arr=new ArrayList<ANO>();
 			 
 			 arr.add(ano1);
-			 arr.add(ano);			 
+			 arr.add(ano);
+			 
+			
 		   
-		try (OutputStream outStream = resp.getPortletOutputStream()){
+		/*try (OutputStream outStream = resp.getPortletOutputStream()){
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonString = mapper.writeValueAsString(arr);
 			outStream.write(jsonString.getBytes());
-		}
+		}*/
+			 
+			 
+         try (OutputStream outStream = resp.getPortletOutputStream()){
+				ObjectMapper mapper = new ObjectMapper();
+				String jsonString = mapper.writeValueAsString(serviceData);
+				outStream.write(jsonString.getBytes());
+         }
 	}
 
 }

@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        				   http://www.springframework.org/schema/beans/spring-beans.xsd  
+					       http://www.springframework.org/schema/context  
+					       http://www.springframework.org/schema/context/spring-context.xsd">
+	 <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:sqlserver_database.properties</value>
+		</property>
+	</bean>
+	<!-- <context:property-placeholder location="classpath:database.properties" /> -->
+
+	 <bean id="dataSourceSec" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="testWhileIdle" value="true"/>
+	</bean>
+	
+	 <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		 <property name="url" value="jdbc:oracle:thin:@10.10.0.41:1521:ardb" />  
+		<property name="url" value="jdbc:oracle:thin:@192.168.0.37:1521:orcl" />
+		 <property name="url" value="jdbc:oracle:thin:@192.168.11.71:1521:OraLR" />
+		<property name="username" value="fond" />
+		<property name="password" value="fond" />
+		<property name="initialSize" value="1"/>
+        <property name="maxActive" value="2"/>
+	</bean> -->
+
+</beans>

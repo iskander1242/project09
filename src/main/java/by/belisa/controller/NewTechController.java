@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import by.belisa.entity.NewTech;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.NewTechService;
-import by.belisa.service.EServicesService;
+import by.belisa.service.EServicesServiceOracle;
 
 @Controller
 @RequestMapping("VIEW")

@@ -81,7 +81,8 @@
 	<p>Данные не найдены</p>
 </div>
     <h5>РАСПРЕДЕЛЕНИЕ РАБОТ ПРОШЕДШИХ ГОСУДАРСТВЕННУЮ РЕГИСТРАЦИЮ</h5>
-	<table id="ano-table"
+    <div id="t1">
+    	<table id="ano-table"
 		class="table table-bordered table-striped table-hover">	
 			<thead>
 				<tr>
@@ -94,7 +95,11 @@
 			<tbody>
 			</tbody>
 		</table>
-	</table>
+    
+    </div>
+    
+    
+
 <portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
 <aui:script>
 $(document).ready(function() {	
@@ -120,7 +125,80 @@ $(document).ready(function() {
 		   url: '${checkUnpUrl}',
 		   dataType: 'json',
 		   data: data,
-		   success: function(data) { LoadCustomers(data); }
+		   success: function(data) { 
+			   
+			   var titles ={
+
+					   "1": {title1: "Источник финансирования научной деятельности",
+					       title2: "Количество зарегистрированных работ",
+					       title3:"Количество организаций-исполнителей",
+					       title4: "Количество организаций-заказчиков",
+					       title5: "dfgdfgdfgdfgdfgdfg",
+					       title6: "wwwwwwwwwwwwwwww"
+					   },
+
+					   "2":{title1: "Источник финансирования научной деятельности",
+					                   title2: "Количество зарегистрированных работ",
+					                   title3:"Количество организаций-исполнителей",
+					                   title4: "Количество организаций-заказчиков",
+					                   title5: "dfgdfgdfgdfgdfgdfg"
+
+					                   },
+					       "3":{title1: "Источник финансирования научной деятельности",
+					           title2: "Количество зарегистрированных работ",
+					           title3:"Количество организаций-исполнителей",
+					           title4: "Количество организаций-заказчиков",
+					           title5: "dfgdfgdfgdfgdfgdfg"
+
+					       },
+
+					       "4":{title1: "Источник финансирования научной деятельности",
+					           title2: "Количество зарегистрированных работ",
+					           title3:"Количество организаций-исполнителей",
+					           title4: "Количество организаций-заказчиков",
+					           title5: "dfgdfgdfgdfgdfgdfg"
+
+					       },
+
+					       "5":{title1: "Источник финансирования научной деятельности",
+					           title2: "Количество зарегистрированных работ",
+					           title3:"Количество организаций-исполнителей",
+					           title4: "Количество организаций-заказчиков",
+					           title5: "dfgdfgdfgdfgdfgdfg"
+
+					       },
+					       "6":{title1: "Источник финансирования научной деятельности",
+					           title2: "Количество зарегистрированных работ",
+					           title3:"Количество организаций-исполнителей",
+					           title4: "Количество организаций-заказчиков",
+					           title5: "dfgdfgdfgdfgdfgdfg"
+
+					       },
+
+					       "7":{title1: "Источник финансирования научной деятельности",
+					           title2: "Количество зарегистрированных работ",
+					           title3:"Количество организаций-исполнителей",
+					           title4: "Количество организаций-заказчиков",
+					           title5: "dfgdfgdfgdfgdfgdfg"
+
+					       }
+
+					   };
+			   
+			   var headers = {
+
+					    "1": "Таблица 1",
+					    "2": "Таблица 2",
+					    "3": "Таблица 3",
+					    "4": "Таблица 4",
+					    "5": "Таблица 5",
+					    "6": "Таблица 6",
+					    "7": "Таблица 7"
+
+					};
+			   
+			   
+			   LoadCustomers(data, titles, headers); }
 		 });
 	});
 }); 
@@ -132,18 +210,83 @@ function showTeams(param){
 	                     
 	              }
 
-function LoadCustomers(data) {	
+
+	              
+function LoadCustomers(data, titles, headers) {
+
+    $("#t1").empty();
+    var _addHead = function (titles) {
+
+        var thead = document.createElement("thead");
+        var tr = document.createElement("tr");
+        var td, tn, h5;
+
+
+        $.each(titles, function (key, value) {
+
+            td = document.createElement("td");
+            tn = document.createTextNode(value);
+            td.appendChild(tn);
+            tr.appendChild(td);
+
+        });
+
+        thead.appendChild(tr);
+
+        return thead;
+
+    };
+var uid = 0;
+    for(var o in data) {
+
+        var listRes2 = data[o];
+uid = ++uid;
+        if (listRes2.length > 0) {
+
+
+            var table = document.createElement("table");
+
+            var td, tn;
+            for (var i = 0; i < listRes2.length; i++) {
+                var tr = document.createElement("tr");
+
+                var obj = listRes2[i];
+
+                $.each(obj, function (key, value) {
+
+                    td = document.createElement("td");
+                    tn = document.createTextNode(value);
+                    td.appendChild(tn);
+                    tr.appendChild(td);
+
+                });
+                table.appendChild(tr);
+
+
+            }
+            
+            h5 = document.createElement("h5");
+            $(h5).html(headers[uid]);
+            $("#t1").append(h5);
+            table.appendChild(_addHead(titles[uid]));
+            $("#t1").append(table).addClass("table table-bordered table-striped table-hover");;
+        }
+    }
+}
+	     
+	              
+
+/* function LoadCustomers(data) {	
 	var tbody = $("#ano-table > tbody").html("");
-		for ( var i in data) {
+ 		for ( var i in data) {
 			var customer = data[i];			
 			var rowText = "<tr><td>" + customer['org']['nameRus'] + "</td><td>" + 1
 					+ "</td><td>" + 1 + "</td><td>" + 1 + "</td></tr>";
 			$(rowText).appendTo(tbody);			
-		}
-	}	
-	
-	
+		} 
+ 	
+	    } */
 
-
-</aui:script>
+	    
+ </aui:script>
 

@@ -24,6 +24,9 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
+ 	<bean id="liferayDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/sqlserver"/>
+    </bean>  
 	<context:annotation-config />
 	<context:component-scan base-package="by.belisa.dao" />
 	<context:component-scan base-package="by.belisa.service" />
@@ -31,11 +34,10 @@
 	<context:component-scan base-package="by.belisa.filters" />
 	<context:component-scan base-package="by.belisa.bean" />
 	<bean id="eServicesDao" class="by.belisa.dao.EServicesDao"></bean>
-	<bean id="eServicesService" class="by.belisa.service.EServicesService"></bean>
+	<bean id="eServicesDaoSqlServer" class="by.belisa.dao.EServicesDaoSqlServer"></bean> 
+	<bean id="eServicesServiceOracle" class="by.belisa.service.EServicesServiceOracle"></bean>
+	<bean id="eServicesServiceSqlServer" class="by.belisa.service.EServicesServiceSqlServer"></bean>	
 	<bean id="EServicesController" class="by.belisa.controller.EServicesController"></bean>
-	
-	
-	
 	
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -52,4 +54,7 @@
 	<!-- Database Configuration -->
 	<import resource="dataSource.xml"/>
 	<import resource="hibernate.xml"/>
+	
+	 <import resource="dataSourceSec.xml"/>
+	<import resource="hibernateSec.xml"/> 	 
 </beans>

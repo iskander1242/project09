@@ -147,12 +147,17 @@
 			<aui:button type="submit" value="Сохранить" />
 		</div>
 	</aui:button-row>
+	
+	
+	
 </aui:form>
 
 <aui:script>
 $(document).ready(function() {
 	$('.disbl').attr('disabled', 'disabled');
 
+	
+	
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
