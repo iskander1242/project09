@@ -36,12 +36,12 @@ public class ResExt3 implements Serializable{
 		super();
 	}
 
-	public String getSubstantId() {
+/*	public String getSubstantId() {
 		return substantId;
 	}
 	public void setSubstantId(String substantId) {
 		this.substantId = substantId;
-	}
+	}*/
 	public String getSubstantiation() {
 		return substantiation;
 	}

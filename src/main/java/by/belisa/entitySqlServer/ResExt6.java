@@ -35,13 +35,13 @@ public class ResExt6 implements Serializable{
 		super();
 	}
 
-	public String getoKOGU() {
+/*	public String getoKOGU() {
 		return oKOGU;
 	}
 
 	public void setoKOGU(String oKOGU) {
 		this.oKOGU = oKOGU;
-	}
+	}*/
 
 	public String getAgency() {
 		return agency;

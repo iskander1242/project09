@@ -30,7 +30,7 @@ public class ResExt1 implements Serializable{
 	private Integer zakCount;	
 	@Column(name="IspCount")
 	private Integer ispCount;
-	@Column(name="ReportCount")
+	//@Column(name="ReportCount")
 	private Integer reportCount;
 	
 	
@@ -64,12 +64,12 @@ public class ResExt1 implements Serializable{
 	public void setIspCount(Integer ispCount) {
 		this.ispCount = ispCount;
 	}
-	public Integer getReportCount() {
+/*	public Integer getReportCount() {
 		return reportCount;
 	}
 	public void setReportCount(Integer reportCount) {
 		this.reportCount = reportCount;
-	}
+	}*/
 	
 	
 	@Override

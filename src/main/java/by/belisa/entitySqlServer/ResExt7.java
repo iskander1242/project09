@@ -35,13 +35,13 @@ public class ResExt7 implements Serializable{
 		super();
 	}
 
-	public String getPriorityId() {
+/*	public String getPriorityId() {
 		return priorityId;
 	}
 
 	public void setPriorityId(String priorityId) {
 		this.priorityId = priorityId;
-	}
+	}*/
 
 	public String getPriority() {
 		return priority;

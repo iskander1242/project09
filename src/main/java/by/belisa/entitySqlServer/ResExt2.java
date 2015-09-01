@@ -36,12 +36,12 @@ public class ResExt2 implements Serializable{
 		super();
 	}
 	
-	public String getFundingId() {
+/*	public String getFundingId() {
 		return fundingId;
 	}
 	public void setFundingId(String fundingId) {
 		this.fundingId = fundingId;
-	}
+	}*/
 	public String getFunding() {
 		return funding;
 	}

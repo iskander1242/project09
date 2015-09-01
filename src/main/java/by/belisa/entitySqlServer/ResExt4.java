@@ -35,12 +35,12 @@ public class ResExt4 implements Serializable{
 		super();
 	}	
 	
-	public String getResultId() {
+	/*public String getResultId() {
 		return resultId;
 	}
 	public void setResultId(String resultId) {
 		this.resultId = resultId;
-	}
+	}*/
 	public String getResult() {
 		return result;
 	}

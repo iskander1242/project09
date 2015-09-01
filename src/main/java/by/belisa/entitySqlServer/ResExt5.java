@@ -35,13 +35,13 @@ public class ResExt5 implements Serializable{
 		super();
 	}
 
-	public String getSectorId() {
+/*	public String getSectorId() {
 		return sectorId;
 	}
 
 	public void setSectorId(String sectorId) {
 		this.sectorId = sectorId;
-	}
+	}*/
 
 	public String getSector() {
 		return sector;
