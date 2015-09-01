@@ -28,31 +28,29 @@
 <c:set var="ns">
 	<portlet:namespace />
 </c:set>
-<aui:form method="POST" action="${sendForm}" name="anketa">
-	<aui:input name="birthday" label="DFROM" value="${anketa.birthday}"
-		bean="anketa">
+<aui:form method="POST" action="${sendForm}" name="anketa"  >
+	<aui:input name="dfrom" label="DFROM" value="${anketa.birthday}" bean="anketa" onchange="showDfrom(this.value)">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {
 							var result = false;
 							
-							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
+							if (val == '' || val.search(/^\d{4}-\d{2}-\d{2}$/)!=-1){
 								result = true;
 							}
 							return result;
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:input name="birthday" label="DTO"  value="${anketa.birthday}"
-		bean="anketa">
+	<aui:input name="dto" label="DTO"  value="${anketa.birthday}" bean="anketa"  onchange="showDto(this.value)">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {
 							var result = false;
 							
-							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
+							if (val == '' || val.search(/^\d{4}-\d{2}-\d{2}$/)!=-1){
 								result = true;
-							}
+							}		
 							return result;
 						}
 		</aui:validator>
@@ -80,23 +78,8 @@
 <div id="notFoundResult" style="display: none">
 	<p>Данные не найдены</p>
 </div>
-    <h5>РАСПРЕДЕЛЕНИЕ РАБОТ ПРОШЕДШИХ ГОСУДАРСТВЕННУЮ РЕГИСТРАЦИЮ</h5>
-    <div id="t1">
-    	<table id="ano-table"
-		class="table table-bordered table-striped table-hover">	
-			<thead>
-				<tr>
-					<td>Источник финансирования научной деятельности</td>
-					<td>Количество зарегистрированных работ</td>
-					<td>Количество организаций-исполнителей</td>
-					<td>Количество организаций-заказчиков</td>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-    
-    </div>
+<div id="t1">    
+</div>
     
     
 
@@ -115,93 +98,96 @@ $(document).ready(function() {
 		width : '90%'
 	});
 	
-	$('#checkBtn').click(function(){
-		alert(showTeams.res);
-		$('#notFoundResult').css('display','none');
-		$('#foundResult').css('display','none');
-		//var data = {"unp":$('#unpInputId').val()}; 
-		var data = {"unp": showTeams.res};
-		$.ajax({
-		   url: '${checkUnpUrl}',
-		   dataType: 'json',
-		   data: data,
-		   success: function(data) { 
-			   
-			   var titles ={
-
-					   "1": {title1: "Источник финансирования научной деятельности",
-					       title2: "Количество зарегистрированных работ",
-					       title3:"Количество организаций-исполнителей",
-					       title4: "Количество организаций-заказчиков",
-					       title5: "dfgdfgdfgdfgdfgdfg",
-					       title6: "wwwwwwwwwwwwwwww"
-					   },
-
-					   "2":{title1: "Источник финансирования научной деятельности",
-					                   title2: "Количество зарегистрированных работ",
-					                   title3:"Количество организаций-исполнителей",
-					                   title4: "Количество организаций-заказчиков",
-					                   title5: "dfgdfgdfgdfgdfgdfg"
-
-					                   },
-					       "3":{title1: "Источник финансирования научной деятельности",
-					           title2: "Количество зарегистрированных работ",
-					           title3:"Количество организаций-исполнителей",
-					           title4: "Количество организаций-заказчиков",
-					           title5: "dfgdfgdfgdfgdfgdfg"
-
-					       },
-
-					       "4":{title1: "Источник финансирования научной деятельности",
-					           title2: "Количество зарегистрированных работ",
-					           title3:"Количество организаций-исполнителей",
-					           title4: "Количество организаций-заказчиков",
-					           title5: "dfgdfgdfgdfgdfgdfg"
-
-					       },
-
-					       "5":{title1: "Источник финансирования научной деятельности",
-					           title2: "Количество зарегистрированных работ",
-					           title3:"Количество организаций-исполнителей",
-					           title4: "Количество организаций-заказчиков",
-					           title5: "dfgdfgdfgdfgdfgdfg"
-
-					       },
-					       "6":{title1: "Источник финансирования научной деятельности",
-					           title2: "Количество зарегистрированных работ",
-					           title3:"Количество организаций-исполнителей",
-					           title4: "Количество организаций-заказчиков",
-					           title5: "dfgdfgdfgdfgdfgdfg"
-
-					       },
-
-					       "7":{title1: "Источник финансирования научной деятельности",
-					           title2: "Количество зарегистрированных работ",
-					           title3:"Количество организаций-исполнителей",
-					           title4: "Количество организаций-заказчиков",
-					           title5: "dfgdfgdfgdfgdfgdfg"
-
-					       }
-
-					   };
-			   
-			   var headers = {
-
-					    "1": "Таблица 1",
-					    "2": "Таблица 2",
-					    "3": "Таблица 3",
-					    "4": "Таблица 4",
-					    "5": "Таблица 5",
-					    "6": "Таблица 6",
-					    "7": "Таблица 7"
-
-					};
-			   
-			   
-			   LoadCustomers(data, titles, headers); }
-		 });
-	});
+	$('#checkBtn').click(showData);	
 }); 
+
+
+function showData(){
+	alert(showTeams.res);
+	$('#notFoundResult').css('display','none');
+	$('#foundResult').css('display','none');
+	//var data = {"unp":$('#unpInputId').val()}; 
+	var data = {"unp": showTeams.res,"dfrom": showDfrom.res,"dto": showDto.res};
+	$.ajax({
+	   url: '${checkUnpUrl}',
+	   dataType: 'json',
+	   data: data,
+	   success: function(data) { 
+		   
+		   var titles ={
+
+				   "1": {title1: "Источник финансирования научной деятельности",
+				       title2: "Количество зарегистрированных работ",
+				       title3:"Количество организаций-исполнителей",
+				       title4: "Количество организаций-заказчиков",
+				       title5: "dfgdfgdfgdfgdfgdfg",
+				       title6: "wwwwwwwwwwwwwwww"
+				   },
+
+				   "2":{title1: "Источник финансирования научной деятельности",
+				                   title2: "Количество зарегистрированных работ",
+				                   title3:"Количество организаций-исполнителей",
+				                   title4: "Количество организаций-заказчиков",
+				                   title5: "dfgdfgdfgdfgdfgdfg"
+
+				                   },
+				       "3":{title1: "Источник финансирования научной деятельности",
+				           title2: "Количество зарегистрированных работ",
+				           title3:"Количество организаций-исполнителей",
+				           title4: "Количество организаций-заказчиков",
+				           title5: "dfgdfgdfgdfgdfgdfg"
+
+				       },
+
+				       "4":{title1: "Источник финансирования научной деятельности",
+				           title2: "Количество зарегистрированных работ",
+				           title3:"Количество организаций-исполнителей",
+				           title4: "Количество организаций-заказчиков",
+				           title5: "dfgdfgdfgdfgdfgdfg"
+
+				       },
+
+				       "5":{title1: "Источник финансирования научной деятельности",
+				           title2: "Количество зарегистрированных работ",
+				           title3:"Количество организаций-исполнителей",
+				           title4: "Количество организаций-заказчиков",
+				           title5: "dfgdfgdfgdfgdfgdfg"
+
+				       },
+				       "6":{title1: "Источник финансирования научной деятельности",
+				           title2: "Количество зарегистрированных работ",
+				           title3:"Количество организаций-исполнителей",
+				           title4: "Количество организаций-заказчиков",
+				           title5: "dfgdfgdfgdfgdfgdfg"
+
+				       },
+
+				       "7":{title1: "Источник финансирования научной деятельности",
+				           title2: "Количество зарегистрированных работ",
+				           title3:"Количество организаций-исполнителей",
+				           title4: "Количество организаций-заказчиков",
+				           title5: "dfgdfgdfgdfgdfgdfg"
+
+				       }
+
+				   };
+		   
+		   var headers = {
+
+				    "1": "Таблица 1",
+				    "2": "Таблица 2",
+				    "3": "Таблица 3",
+				    "4": "Таблица 4",
+				    "5": "Таблица 5",
+				    "6": "Таблица 6",
+				    "7": "Таблица 7"
+
+				};
+		   
+		   
+		   LoadCustomers(data, titles, headers); }
+	 });
+}
 
 
 function showTeams(param){
@@ -273,20 +259,21 @@ uid = ++uid;
         }
     }
 }
-	     
 	              
+function showDfrom(param){
+	 showDfrom.res = param;  
+}
 
-/* function LoadCustomers(data) {	
-	var tbody = $("#ano-table > tbody").html("");
- 		for ( var i in data) {
-			var customer = data[i];			
-			var rowText = "<tr><td>" + customer['org']['nameRus'] + "</td><td>" + 1
-					+ "</td><td>" + 1 + "</td><td>" + 1 + "</td></tr>";
-			$(rowText).appendTo(tbody);			
-		} 
- 	
-	    } */
 
-	    
+function showDto(param){
+	showDto.res = param;  
+}
+
+function asd(){
+	alert(showDto.res);
+	if (showDto.res==undefined){
+		alert('undef')
+	}
+}
  </aui:script>
 

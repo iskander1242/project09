@@ -111,11 +111,15 @@ public class EServicesController {
 	
 	@ResourceMapping
 	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
-		ServiceData  serviceData=eServicesServiceSqlServers.getExt();
+
 		
 		String unp = req.getParameter("unp");
+		String dfrom=req.getParameter("dfrom");
+		String dto=req.getParameter("dto");
 		
-		     ANO ano = new ANO();
+		ServiceData  serviceData=eServicesServiceSqlServers.getExt(dfrom,dto);
+		
+/*		     ANO ano = new ANO();
 		     OrgInfo oi=new OrgInfo();
 		     oi.setCity("Минск");
 		     oi.setNameRus("ИППС");
@@ -131,7 +135,7 @@ public class EServicesController {
 			 
 			 arr.add(ano1);
 			 arr.add(ano);
-			 
+			 */
 			
 		   
 		/*try (OutputStream outStream = resp.getPortletOutputStream()){

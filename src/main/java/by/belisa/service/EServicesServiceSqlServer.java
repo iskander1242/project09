@@ -32,33 +32,7 @@ public class EServicesServiceSqlServer extends ServiceImpl<Services, Integer>{
 	}
 	
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ServiceData getExt(){
-		 return ((EServicesDaoSqlServer)baseDao).getExtRes1();
+	public ServiceData getExt(String dfrom, String dto){
+		 return ((EServicesDaoSqlServer)baseDao).getExtRes1(dfrom,dto);
 	}
- /*   
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public void getExt3(){
-		 ((EServicesDaoSqlServer)baseDao).getExtRes3();
-	}
-    
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-   	public void getExt4(){
-   		 ((EServicesDaoSqlServer)baseDao).getExtRes4();
-   	}
-    
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-   	public void getExt5(){
-   		 ((EServicesDaoSqlServer)baseDao).getExtRes5();
-   	}
-    
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-   	public void getExt6(){
-   		 ((EServicesDaoSqlServer)baseDao).getExtRes6();
-   	}
-    
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-   	public void getExt7(){
-   		 ((EServicesDaoSqlServer)baseDao).getExtRes7();
-   	}*/
-
 }

@@ -29,30 +29,33 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public  ServiceData getExtRes1(){
+	public  ServiceData getExtRes1(String dfrom, String dto){
 		
 	ServiceData serviceData=new ServiceData();
+	
+/*	String dfrom ="2015-01-01";
+	String dto ="2015-06-30";*/
 		
-	List<ResExt1>	result1=(List<ResExt1>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=1")
+	List<ResExt1>	result1=(List<ResExt1>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=1")
 				.addEntity(ResExt1.class).list();		
 	List<ResExt2>	result2=
-				(List<ResExt2>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=2")
+				(List<ResExt2>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=2")
 				.addEntity(ResExt2.class).list(); 		
 	List<ResExt3>	result3=
-				(List<ResExt3>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=3")
+				(List<ResExt3>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=3")
 				.addEntity(ResExt3.class).list();		
 	List<ResExt4>	result4=
-				(List<ResExt4>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=4")
+				(List<ResExt4>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=4")
 				.addEntity(ResExt4.class).list();		
 	List<ResExt5>	result5=
-				(List<ResExt5>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=5")
+				(List<ResExt5>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=5")
 				.addEntity(ResExt5.class).list(); 		
 	List<ResExt6>	result6=
-				(List<ResExt6>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=6")
+				(List<ResExt6>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=6")
 				.addEntity(ResExt6.class).list();		
 	List<ResExt7>	result7=
-				(List<ResExt7>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='2015-01-01', @enddate='2015-06-30', @query=7")
-				.addEntity(ResExt7.class).list(); 
+				(List<ResExt7>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01 @startdate='"+dfrom+"', @enddate='"+dto+"', @query=7")
+				.addEntity(ResExt7.class).list();	
 	
 	serviceData.setListRes1(result1);
 	serviceData.setListRes2(result2);
@@ -60,11 +63,12 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	serviceData.setListRes4(result4);
 	serviceData.setListRes5(result5);
 	serviceData.setListRes6(result6);
-	serviceData.setListRes7(result7);
-	
+	serviceData.setListRes7(result7);	
 	
 	return serviceData;
 	}
+
+
 	
 	
 
