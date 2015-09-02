@@ -11,73 +11,48 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+@JsonPropertyOrder({"priority","projectCount","ispCount","zakCount","amount","budget"})
 @Entity
-public class ResExt7 implements Serializable{
+public class ResExt7  extends Res7 implements Serializable{
 
 //	PriorityId	Priority	                ProjectCount	IspCount	ZakCount
 //	01.00.00   ЭНЕРГЕТИКА И ЭНЕРГОСБЕРЕЖЕНИЕ	43	          23	      18
 	
+/*	PriorityId	Priority	ProjectCount	IspCount	ZakCount	Amount	Budget
+	01.00.00                        	ЭНЕРГЕТИКА И ЭНЕРГОСБЕРЕЖЕНИЕ	368	80	64	135893767,922	115080668,924
+*/	
 	private static final long serialVersionUID = 3921240007259490742L;
 	
-	@Id
-	@Column(name="PriorityId")
-	private String priorityId;	
-	@Column(name="Priority")
-	private String priority;	
-	@Column(name="ProjectCount")
-	private Integer projectCount;	
-	@Column(name="IspCount")
-	private Integer ispCount;	
-	@Column(name="ZakCount")
-	private Integer zakCount;	
+	
+	@Column(name="Amount")
+	private Float amount;	
+	@Column(name="Budget")
+	private Float budget;
 	
 	public ResExt7() {
 		super();
 	}
-
-/*	public String getPriorityId() {
-		return priorityId;
-	}
-
-	public void setPriorityId(String priorityId) {
-		this.priorityId = priorityId;
-	}*/
-
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-	public Integer getProjectCount() {
-		return projectCount;
-	}
-
-	public void setProjectCount(Integer projectCount) {
-		this.projectCount = projectCount;
-	}
-
-	public Integer getIspCount() {
-		return ispCount;
-	}
 	
-	public void setIspCount(Integer ispCount) {
-		this.ispCount = ispCount;
-	}
-	public Integer getZakCount() {
-		return zakCount;
+	public Float getAmount() {
+		return amount;
 	}
 
-	public void setZakCount(Integer zakCount) {
-		this.zakCount = zakCount;
+	public void setAmount(Float amount) {
+		this.amount = amount;
 	}
-	
+
+	public Float getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Float budget) {
+		this.budget = budget;
+	}
+
 	@Override
 	public String toString() {
-		return "ResExt7 [priorityId=" + priorityId + ", priority=" + priority
-				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
-				+ ", zakCount=" + zakCount + "]";
+		return "ResExt7 ["+super.toString()+"amount=" + amount + ", budget=" + budget + "]";
 	}
+
 }

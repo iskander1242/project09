@@ -27,6 +27,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.ServiceData;
+import by.belisa.bean.ServiceDataExt;
 import by.belisa.entity.ANO;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
@@ -117,39 +118,25 @@ public class EServicesController {
 		String dfrom=req.getParameter("dfrom");
 		String dto=req.getParameter("dto");
 		
-		ServiceData  serviceData=eServicesServiceSqlServers.getExt(dfrom,dto);
+		if (unp.equals("53")){
 		
-/*		     ANO ano = new ANO();
-		     OrgInfo oi=new OrgInfo();
-		     oi.setCity("Минск");
-		     oi.setNameRus("ИППС");
-		     ano.setOrg(oi);
-		 
-			 ANO ano1 = new ANO();
-			 OrgInfo oi1=new OrgInfo();
-			 oi1.setCity("Минск");
-			 oi1.setNameRus("БЕЛИСА");
-			 ano1.setOrg(oi1);
-			 
-			 List<ANO> arr=new ArrayList<ANO>();
-			 
-			 arr.add(ano1);
-			 arr.add(ano);
-			 */
-			
-		   
-		/*try (OutputStream outStream = resp.getPortletOutputStream()){
-			ObjectMapper mapper = new ObjectMapper();
-			String jsonString = mapper.writeValueAsString(arr);
-			outStream.write(jsonString.getBytes());
-		}*/
-			 
+		ServiceData  serviceData=eServicesServiceSqlServers.getService01Res(dfrom,dto);			 
 			 
          try (OutputStream outStream = resp.getPortletOutputStream()){
 				ObjectMapper mapper = new ObjectMapper();
 				String jsonString = mapper.writeValueAsString(serviceData);
 				outStream.write(jsonString.getBytes());
          }
+		} else{
+			ServiceDataExt  serviceData=eServicesServiceSqlServers.getService01ResExt(dfrom, dto);			 
+			 
+	         try (OutputStream outStream = resp.getPortletOutputStream()){
+					ObjectMapper mapper = new ObjectMapper();
+					String jsonString = mapper.writeValueAsString(serviceData);
+					outStream.write(jsonString.getBytes());
+	         }
+			
+		}
 	}
 
 }

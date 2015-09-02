@@ -11,75 +11,51 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({"sector","projectCount","ispCount","zakCount","amount"})
 @Entity
-public class ResExt5 implements Serializable{
+public class ResExt5 extends Res5  implements Serializable{
 
 //	SectorId	Sector	        ProjectCount	IspCount	ZakCount
 //	АКД         академический	362	               58	       12
 	
+/*	SectorId	Sector	        ProjectCount	IspCount	ZakCount	Amount	     Budget
+	АКД         академический	3431	           84	       483	  1451582573,57	1226119631,57	
+*/	
 	private static final long serialVersionUID = 3921240007259490792L;	
 	
-	@Id
-	@Column(name="SectorId")
-	private String sectorId;	
-	@Column(name="Sector")
-	private String sector;	
-	@Column(name="ProjectCount")
-	private Integer projectCount;	
-	@Column(name="IspCount")
-	private Integer ispCount;	
-	@Column(name="ZakCount")
-	private Integer zakCount;	
+	
+	@Column(name="Amount")
+	private Float amount;	
+	@Column(name="Budget")
+	private Float budget;
 	
 	public ResExt5() {
 		super();
 	}
-
-/*	public String getSectorId() {
-		return sectorId;
+	
+	public Float getAmount() {
+		return amount;
 	}
 
-	public void setSectorId(String sectorId) {
-		this.sectorId = sectorId;
-	}*/
-
-	public String getSector() {
-		return sector;
+	public void setAmount(Float amount) {
+		this.amount = amount;
 	}
 
-	public void setSector(String sector) {
-		this.sector = sector;
+	public Float getBudget() {
+		return budget;
 	}
 
-	public Integer getProjectCount() {
-		return projectCount;
-	}
-
-	public void setProjectCount(Integer projectCount) {
-		this.projectCount = projectCount;
-	}
-
-	public Integer getIspCount() {
-		return ispCount;
-	}
-
-	public void setIspCount(Integer ispCount) {
-		this.ispCount = ispCount;
-	}
-
-	public Integer getZakCount() {
-		return zakCount;
-	}
-
-	public void setZakCount(Integer zakCount) {
-		this.zakCount = zakCount;
+	public void setBudget(Float budget) {
+		this.budget = budget;
 	}
 
 	@Override
 	public String toString() {
-		return "ResExt5 [sectorId=" + sectorId + ", sector=" + sector
-				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
-				+ ", zakCount=" + zakCount + "]";
+		return "ResExt5 ["+super.toString()+"amount=" + amount + ", budget=" + budget + "]";
 	}
+	
+	
 	
 }

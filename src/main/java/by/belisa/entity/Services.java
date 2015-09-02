@@ -36,20 +36,25 @@ public class Services implements Serializable{
 		this.id = id;
 	}
 	
-/*	"ID" NUMBER NOT NULL ENABLE, 
-	"NAME" VARCHAR2(4000 BYTE), 
-	"DESCRIPTION" CLOB, 
-	"NOTE" CLOB, 
-	"LINK" VARCHAR2(100 BYTE), 
-	"KOD" VARCHAR2(400 BYTE), 
-	"ID_CLASS" NUMBER, 
-	"AUTHORIZATION" NUMBER, 
-	"PLATNOST" NUMBER, 
-	"PUBLICATION" NUMBER, 
-	"TEMPLATE" BLOB, 
-	"MIMETYPE_TEMPLATE" VARCHAR2(255 CHAR), 
-	"NAME_TEMPLATE" VARCHAR2(255 CHAR), 
-	"MODERATION" NUMBER*/
+/*	  (	"ID" NUMBER NOT NULL ENABLE, 
+				"NAME" VARCHAR2(4000 BYTE), 
+				"DESCRIPTION" CLOB, 
+				"NOTE" CLOB, 
+				"LINK" VARCHAR2(100 BYTE), 
+				"KOD" VARCHAR2(400 BYTE), 
+				"ID_CLASS" NUMBER, 
+				"AUTHORIZATION" NUMBER, 
+				"PLATNOST" NUMBER, 
+				"PUBLICATION" NUMBER, 
+				"TEMPLATE" BLOB, 
+				"MIMETYPE_TEMPLATE" VARCHAR2(255 CHAR), 
+				"NAME_TEMPLATE" VARCHAR2(255 CHAR), 
+				"MODERATION" NUMBER, 
+				"INFO_SYSTEM" VARCHAR2(30 CHAR), 
+				"SHIFR" VARCHAR2(15 CHAR), 
+				"STB" VARCHAR2(10 CHAR), */
+	
+
 	@Id
 	@Column(name = "id")  	 
 	private Long id;
@@ -81,6 +86,15 @@ public class Services implements Serializable{
 	private String nameTemplate;
 	@Column(name="MODERATION")
 	private Long moderation;
+	
+	
+	@Column(name="INFO_SYSTEM")
+	private String infoSystem;
+	@Column(name="SHIFR")
+	private String shifr;
+	@Column(name="STB")
+	private String stb;
+	
 	
 
 	public Long getId() {

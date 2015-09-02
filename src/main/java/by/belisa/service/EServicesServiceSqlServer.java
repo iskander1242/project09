@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import by.belisa.bean.ServiceData;
+import by.belisa.bean.ServiceDataExt;
 import by.belisa.dao.Dao;
 import by.belisa.dao.EServicesDao;
 import by.belisa.dao.EServicesDaoSqlServer;
@@ -32,7 +33,12 @@ public class EServicesServiceSqlServer extends ServiceImpl<Services, Integer>{
 	}
 	
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ServiceData getExt(String dfrom, String dto){
-		 return ((EServicesDaoSqlServer)baseDao).getExtRes1(dfrom,dto);
+	public ServiceData getService01Res(String dfrom, String dto){
+		 return ((EServicesDaoSqlServer)baseDao).getRes(dfrom, dto);
+	}
+    
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ServiceDataExt getService01ResExt(String dfrom, String dto){
+		 return ((EServicesDaoSqlServer)baseDao).getResExt(dfrom, dto);
 	}
 }

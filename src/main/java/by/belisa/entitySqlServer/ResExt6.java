@@ -11,74 +11,47 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+@JsonPropertyOrder({"agency","projectCount","ispCount","zakCount","amount","budget"})
 @Entity
-public class ResExt6 implements Serializable{
+public class ResExt6  extends Res6 implements Serializable{
 
 /*	OKOGU	Agency	                                      ProjectCount	IspCount	ZakCount
 	32010   Администрация Президента Республики Беларусь	  7	           3	       2
+	
+	OKOGU	Agency	                                       ProjectCount	IspCount	ZakCount	Amount	    Budget
+    32010   Администрация Президента Республики Беларусь	60	            4	         14	   7373248,2	6865788,3
 */	
 	private static final long serialVersionUID = 3921240007259490742L;
-	
-	@Id
-	@Column(name="OKOGU")
-	private String oKOGU;	
-	@Column(name="Agency")
-	private String agency;	
-	@Column(name="ProjectCount")
-	private Integer projectCount;	
-	@Column(name="IspCount")
-	private Integer ispCount;	
-	@Column(name="ZakCount")
-	private Integer zakCount;	
+	 
+	@Column(name="Amount")
+	private Float amount;	
+	@Column(name="Budget")
+	private Float budget;
 	
 	public ResExt6() {
 		super();
 	}
-
-/*	public String getoKOGU() {
-		return oKOGU;
+	
+	public Float getAmount() {
+		return amount;
 	}
 
-	public void setoKOGU(String oKOGU) {
-		this.oKOGU = oKOGU;
-	}*/
-
-	public String getAgency() {
-		return agency;
+	public void setAmount(Float amount) {
+		this.amount = amount;
 	}
 
-	public void setAgency(String agency) {
-		this.agency = agency;
+	public Float getBudget() {
+		return budget;
 	}
 
-	public Integer getProjectCount() {
-		return projectCount;
-	}
-
-	public void setProjectCount(Integer projectCount) {
-		this.projectCount = projectCount;
-	}
-
-	public Integer getIspCount() {
-		return ispCount;
-	}
-
-	public void setIspCount(Integer ispCount) {
-		this.ispCount = ispCount;
-	}
-
-	public Integer getZakCount() {
-		return zakCount;
-	}
-
-	public void setZakCount(Integer zakCount) {
-		this.zakCount = zakCount;
+	public void setBudget(Float budget) {
+		this.budget = budget;
 	}
 
 	@Override
 	public String toString() {
-		return "ResExt6 [oKOGU=" + oKOGU + ", agency=" + agency
-				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
-				+ ", zakCount=" + zakCount + "]";
+		return "ResExt6 ["+super.toString()+"amount=" + amount + ", budget=" + budget + "]";
 	}
-}
+	
+	}

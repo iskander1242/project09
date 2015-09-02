@@ -11,66 +11,60 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({"result","fNIRCount","fNIRAmount","pNIRCount","pNIRAmount","oKTRCount","oKTRAmount"})
 @Entity
-public class ResExt4 implements Serializable{
+public class ResExt4 extends Res4   implements Serializable{
 
 /*	ResultId	Result	                               FNIRCount	PNIRCount	OKTRCount
 	УСТ         стройство (машины, оборудование и др.)	  1	           21	       63*/
 	
-	private static final long serialVersionUID = 3921240007259990742L;
-	
-	@Id
-	@Column(name="ResultId")
-	private String resultId;	
-	@Column(name="Result")
-	private String result;	
-	@Column(name="FNIRCount")
-	private Integer fNIRCount;	
-	@Column(name="PNIRCount")
-	private Integer pNIRCount;	
-	@Column(name="OKTRCount")
-	private Integer oKTRCount;	
-	
+/*	ResultId	Result	                                FNIRCount	FNIRAmount	PNIRCount	PNIRAmount	    OKTRCount	OKTRAmount
+	УСТ         Устройство (машины, оборудование и др.)	5	        3950590	    463	        217332659,752	786	        1567973805,976
+*/	
+	private static final long serialVersionUID = 3921240007209990742L;
+    @Column(name="FNIRAmount")
+    private Float fNIRAmount;
+    @Column(name="PNIRAmount")
+    private Float pNIRAmount;
+    @Column(name="OKTRAmount")
+    private Float oKTRAmount;
+    	
 	public ResExt4() {
 		super();
-	}	
-	
-	/*public String getResultId() {
-		return resultId;
 	}
-	public void setResultId(String resultId) {
-		this.resultId = resultId;
-	}*/
-	public String getResult() {
-		return result;
+
+	public Float getfNIRAmount() {
+		return fNIRAmount;
 	}
-	public void setResult(String result) {
-		this.result = result;
+
+	public void setfNIRAmount(Float fNIRAmount) {
+		this.fNIRAmount = fNIRAmount;
 	}
-	public Integer getfNIRCount() {
-		return fNIRCount;
+
+	public Float getpNIRAmount() {
+		return pNIRAmount;
 	}
-	public void setfNIRCount(Integer fNIRCount) {
-		this.fNIRCount = fNIRCount;
+
+	public void setpNIRAmount(Float pNIRAmount) {
+		this.pNIRAmount = pNIRAmount;
 	}
-	public Integer getpNIRCount() {
-		return pNIRCount;
+
+	public Float getoKTRAmount() {
+		return oKTRAmount;
 	}
-	public void setpNIRCount(Integer pNIRCount) {
-		this.pNIRCount = pNIRCount;
-	}
-	public Integer getoKTRCount() {
-		return oKTRCount;
-	}
-	public void setoKTRCount(Integer oKTRCount) {
-		this.oKTRCount = oKTRCount;
+
+	public void setoKTRAmount(Float oKTRAmount) {
+		this.oKTRAmount = oKTRAmount;
 	}
 
 	@Override
 	public String toString() {
-		return "ResExt4 [resultId=" + resultId + ", result=" + result
-				+ ", fNIRCount=" + fNIRCount + ", pNIRCount=" + pNIRCount
-				+ ", oKTRCount=" + oKTRCount + "]";
-	}	
+		return "ResExt4 ["+super.toString()+"fNIRAmount=" + fNIRAmount + ", pNIRAmount="
+				+ pNIRAmount + ", oKTRAmount=" + oKTRAmount + "]";
+	}
+	
+	
 	
 }

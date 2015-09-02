@@ -11,70 +11,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-public class ResExt2 implements Serializable{
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.hibernate.annotations.Columns;
 
+@JsonPropertyOrder({"funding","projectCount","ispCount","zakCount","amount"})
+@Entity
+public class ResExt2 extends Res2 implements Serializable {
 /*	FundingId	Funding	              ProjectCount	IspCount	ZakCount	Amount
 	РЕСБ        республиканский бюджет	744	         164	        91	     308615718,558*/
 	
-	private static final long serialVersionUID = 3921240007259490742L;
+/*	FundingId	Funding	                       ProjectCount	IspCount	ZakCount	Amount
+	РЕСБ        республиканский бюджет	       6629	        372	        278	     2471916544,571	
+*/	
+	private static final long serialVersionUID = 3921240007159490742L;
 	
-	@Id
-	@Column(name="FundingId")
-	private String fundingId;	
-	@Column(name="Funding")
-	private String funding;	
-	@Column(name="ProjectCount")
-	private Integer projectCount;	
-	@Column(name="IspCount")
-	private Integer ispCount;	
-	@Column(name="ZakCount")
-	private Integer zakCount;
+	@Column(name="Amount")
+	private Float amount;	
 	
-	
-	public ResExt2() {
+	public ResExt2(){
 		super();
 	}
 	
-/*	public String getFundingId() {
-		return fundingId;
+	public Float getAmount() {
+		return amount;
 	}
-	public void setFundingId(String fundingId) {
-		this.fundingId = fundingId;
-	}*/
-	public String getFunding() {
-		return funding;
-	}
-	public void setFunding(String funding) {
-		this.funding = funding;
-	}
-	public Integer getProjectCount() {
-		return projectCount;
-	}
-	public void setProjectCount(Integer projectCount) {
-		this.projectCount = projectCount;
-	}
-	public Integer getIspCount() {
-		return ispCount;
-	}
-	public void setIspCount(Integer ispCount) {
-		this.ispCount = ispCount;
-	}
-	public Integer getZakCount() {
-		return zakCount;
-	}
-	public void setZakCount(Integer zakCount) {
-		this.zakCount = zakCount;
+	public void setAmount(Float amount) {
+		this.amount = amount;
 	}
 
 	@Override
 	public String toString() {
-		return "ResExt2 [fundingId=" + fundingId + ", funding=" + funding
-				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
-				+ ", zakCount=" + zakCount + "]";
+		return "ResExt2 ["+super.toString() +" amount=" + amount + "]";
 	}
-
-
 	
 	
 }

@@ -41,13 +41,20 @@
 
 		<property name="annotatedClasses">
 			<list>
+				<value>by.belisa.entitySqlServer.Res1</value>
+				<value>by.belisa.entitySqlServer.Res2</value>
+				<value>by.belisa.entitySqlServer.Res3</value>
+				<value>by.belisa.entitySqlServer.Res4</value>
+				<value>by.belisa.entitySqlServer.Res5</value>
+				<value>by.belisa.entitySqlServer.Res6</value>
+				<value>by.belisa.entitySqlServer.Res7</value>
 				<value>by.belisa.entitySqlServer.ResExt1</value>
-				<value>by.belisa.entitySqlServer.ResExt2</value>
-				<value>by.belisa.entitySqlServer.ResExt3</value>
-				<value>by.belisa.entitySqlServer.ResExt4</value>
-				<value>by.belisa.entitySqlServer.ResExt5</value>
+				<value>by.belisa.entitySqlServer.ResExt2</value>	
+				<value>by.belisa.entitySqlServer.ResExt3</value>	
+				<value>by.belisa.entitySqlServer.ResExt4</value>	
+				<value>by.belisa.entitySqlServer.ResExt5</value>	
 				<value>by.belisa.entitySqlServer.ResExt6</value>
-				<value>by.belisa.entitySqlServer.ResExt7</value>						
+				<value>by.belisa.entitySqlServer.ResExt7</value>									
 			</list>
 		</property>
 

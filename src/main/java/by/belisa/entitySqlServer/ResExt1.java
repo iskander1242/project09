@@ -11,75 +11,49 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+
+@JsonPropertyOrder({"projectCount","rejectCount","amount","ispCount","zakCount","regCount" })
 @Entity
-public class ResExt1 implements Serializable{
+public class ResExt1 extends Res1 implements Serializable {
 
 //	 ProjectCount	RejectCount	  RegCount	 ZakCount	IspCount	ReportCount
 //    1150	          4	      1146	      281	     219	      1867 
-	
-	private static final long serialVersionUID = 3921240007259490742L;
-	@Id
-	@Column(name="ProjectCount")
-	private Integer projectCount;
 
-	@Column(name="RejectCount")
-	private Integer rejectCount;	
-	@Column(name="RegCount")
-	private Integer regCount;	
-	@Column(name="ZakCount")
-	private Integer zakCount;	
-	@Column(name="IspCount")
-	private Integer ispCount;
-	//@Column(name="ReportCount")
-	private Integer reportCount;
+/*	ProjectCount	RejectCount	RegCount	ZakCount	IspCount	Amount	            Budget	  ReportCount
+	9212	              14	  9198	      930	       490	   4134918309,393	2685333316,795	 8429*/	
 	
 	
-	public Integer getProjectCount() {
-		return projectCount;
-	}
-	public void setProjectCount(Integer projectCount) {
-		this.projectCount = projectCount;
-	}
-	public Integer getRejectCount() {
-		return rejectCount;
-	}
-	public void setRejectCount(Integer rejectCount) {
-		this.rejectCount = rejectCount;
-	}
-	public Integer getRegCount() {
-		return regCount;
-	}
-	public void setRegCount(Integer regCount) {
-		this.regCount = regCount;
-	}
-	public Integer getZakCount() {
-		return zakCount;
-	}
-	public void setZakCount(Integer zakCount) {
-		this.zakCount = zakCount;
-	}
-	public Integer getIspCount() {
-		return ispCount;
-	}
-	public void setIspCount(Integer ispCount) {
-		this.ispCount = ispCount;
-	}
-/*	public Integer getReportCount() {
-		return reportCount;
-	}
-	public void setReportCount(Integer reportCount) {
-		this.reportCount = reportCount;
-	}*/
+	private static final long serialVersionUID = 3921240097259490742L;
 	
+	@Column(name="Amount")
+	private Float amount;	
+	@Column(name="Budget")
+	private Float budget;	
+
+	public ResExt1(){
+		super();
+	}
 	
+	public Float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Float amount) {
+		this.amount = amount;
+	}
+
+	public Float getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Float budget) {
+		this.budget = budget;
+	}
+
 	@Override
 	public String toString() {
-		return "ResExt1 [projectCount=" + projectCount + ", rejectCount="
-				+ rejectCount + ", regCount=" + regCount + ", zakCount="
-				+ zakCount + ", ispCount=" + ispCount + ", reportCount="
-				+ reportCount + "]";
-	}
-
-	
-	
+		return "ResExt1 [amount=" + amount + ", budget=" + budget +super.toString()+ "]";
+	}		
 }
