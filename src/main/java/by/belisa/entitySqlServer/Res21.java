@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-public class Res2 implements Serializable{
+public class Res21 implements Serializable{
 
 /*	FundingId	Funding	              ProjectCount	IspCount	ZakCount	Amount
 	РЕСБ        республиканский бюджет	744	         164	        91	     308615718,558*/

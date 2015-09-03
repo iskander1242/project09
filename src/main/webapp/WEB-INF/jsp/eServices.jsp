@@ -55,7 +55,7 @@
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:select name="orgId" class="chosen" label="Организация" onchange="showTeams(this.value);">
+	<aui:select name="orgId" class="chosen" label="Выбор услуги" onchange="showTeams(this.value);">
 		<aui:option value=""></aui:option>
 		<c:forEach var="i" items="${servicesList}">
 			<aui:option value="${i.id}" label="${i.name}"
@@ -103,16 +103,28 @@ $(document).ready(function() {
 
 
 function checkParam(){
- 	if (showTeams.res && showDto.res && showDfrom.res)  
+ 	if (showTeams.res)
+ 		/* 	&& showDto.res && showDfrom.res)   */
 	{ 
+ 		//  $('#t1').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> .');
 		showData();
 	 }else{
 		alert('Заполните параметры запроса!!!');
 	} 
 }
 
+function buttonOff(){   
+     $('#checkBtn').off()
+ }
+ 
+function buttonOn(){   
+	$('#checkBtn').click(checkParam);
+}
+
 
 function showData(){
+	buttonOff();
+	 $('#t1').empty(); 
 	alert(showTeams.res);
 	$('#notFoundResult').css('display','none');
 	$('#foundResult').css('display','none');
@@ -122,7 +134,7 @@ function showData(){
 	   url: '${checkUnpUrl}',
 	   dataType: 'json',
 	   data: data,
-	   success: function(data) { 
+	   success: function(data) {		   	   
 		   
 		   if (showTeams.res==53){		   
 		   var titles ={
@@ -347,6 +359,8 @@ var uid = 0;
             $("#t1").append(table).addClass("table table-bordered table-striped table-hover");;
         }
     }
+    
+    buttonOn();
 }
 	              
 function showDfrom(param){

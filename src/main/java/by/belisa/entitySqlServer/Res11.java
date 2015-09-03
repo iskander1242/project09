@@ -4,20 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DTYPE")
-public class Res1 implements Serializable{
+public class Res11 implements Serializable{
 
 //	 ProjectCount	RejectCount	  RegCount	 ZakCount	IspCount	ReportCount
 //    1150	          4	      1146	      281	     219	      1867 
@@ -37,6 +32,7 @@ public class Res1 implements Serializable{
 	private Integer ispCount;
 	//@Column(name="ReportCount")
 	private Integer reportCount;
+	
 	
 	public Integer getProjectCount() {
 		return projectCount;

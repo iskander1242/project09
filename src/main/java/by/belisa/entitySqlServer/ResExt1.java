@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -11,11 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 
 @JsonPropertyOrder({"projectCount","rejectCount","amount","ispCount","zakCount","regCount" })
 @Entity
+@DiscriminatorValue("L")
 public class ResExt1 extends Res1 implements Serializable {
 
 //	 ProjectCount	RejectCount	  RegCount	 ZakCount	IspCount	ReportCount
@@ -28,9 +32,11 @@ public class ResExt1 extends Res1 implements Serializable {
 	private static final long serialVersionUID = 3921240097259490742L;
 	
 	@Column(name="Amount")
-	private Float amount;	
+	private Float amount;
+	@JsonIgnore
 	@Column(name="Budget")
-	private Float budget;	
+	private Float budget;
+	
 
 	public ResExt1(){
 		super();

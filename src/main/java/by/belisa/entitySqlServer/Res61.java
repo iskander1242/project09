@@ -12,63 +12,73 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-public class Res2 implements Serializable{
+public class Res61 implements Serializable{
 
-/*	FundingId	Funding	              ProjectCount	IspCount	ZakCount	Amount
-	РЕСБ        республиканский бюджет	744	         164	        91	     308615718,558*/
-	
+/*	OKOGU	Agency	                                      ProjectCount	IspCount	ZakCount
+	32010   Администрация Президента Республики Беларусь	  7	           3	       2
+*/	
 	private static final long serialVersionUID = 3921240007259490742L;
 	
 	@Id
-	@Column(name="FundingId")
-	private String fundingId;	
-	@Column(name="Funding")
-	private String funding;	
+	@Column(name="OKOGU")
+	private String oKOGU;	
+	@Column(name="Agency")
+	private String agency;	
 	@Column(name="ProjectCount")
 	private Integer projectCount;	
 	@Column(name="IspCount")
 	private Integer ispCount;	
 	@Column(name="ZakCount")
-	private Integer zakCount;
-	/*	public String getFundingId() {
-		return fundingId;
+	private Integer zakCount;	
+	
+	public Res61() {
+		super();
 	}
-	public void setFundingId(String fundingId) {
-		this.fundingId = fundingId;
+
+/*	public String getoKOGU() {
+		return oKOGU;
+	}
+
+	public void setoKOGU(String oKOGU) {
+		this.oKOGU = oKOGU;
 	}*/
-	public String getFunding() {
-		return funding;
+
+	public String getAgency() {
+		return agency;
 	}
-	public void setFunding(String funding) {
-		this.funding = funding;
+
+	public void setAgency(String agency) {
+		this.agency = agency;
 	}
+
 	public Integer getProjectCount() {
 		return projectCount;
 	}
+
 	public void setProjectCount(Integer projectCount) {
 		this.projectCount = projectCount;
 	}
+
 	public Integer getIspCount() {
 		return ispCount;
 	}
+
 	public void setIspCount(Integer ispCount) {
 		this.ispCount = ispCount;
 	}
+
 	public Integer getZakCount() {
 		return zakCount;
 	}
+
 	public void setZakCount(Integer zakCount) {
 		this.zakCount = zakCount;
 	}
 
 	@Override
 	public String toString() {
-		return "Res [fundingId=" + fundingId + ", funding=" + funding
+		return "ResExt6 [oKOGU=" + oKOGU + ", agency=" + agency
 				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
 				+ ", zakCount=" + zakCount + "]";
 	}
-
-
-	
-	
 }

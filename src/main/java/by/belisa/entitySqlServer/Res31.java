@@ -12,35 +12,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-public class Res2 implements Serializable{
+public class Res31 implements Serializable{
 
-/*	FundingId	Funding	              ProjectCount	IspCount	ZakCount	Amount
-	РЕСБ        республиканский бюджет	744	         164	        91	     308615718,558*/
+//	SubstantId	Substantiation	        ProjectCount	IspCount	ZakCount
+//	НП          Национальная программа	     1	           1	       2
 	
-	private static final long serialVersionUID = 3921240007259490742L;
+	private static final long serialVersionUID = 3921740007259490742L;
 	
 	@Id
-	@Column(name="FundingId")
-	private String fundingId;	
-	@Column(name="Funding")
-	private String funding;	
+	@Column(name="SubstantId")
+	private String substantId;
+	@Column(name="Substantiation")
+	private String substantiation;	
 	@Column(name="ProjectCount")
 	private Integer projectCount;	
 	@Column(name="IspCount")
 	private Integer ispCount;	
 	@Column(name="ZakCount")
 	private Integer zakCount;
-	/*	public String getFundingId() {
-		return fundingId;
+	
+	
+	public Res31() {
+		super();
 	}
-	public void setFundingId(String fundingId) {
-		this.fundingId = fundingId;
+
+/*	public String getSubstantId() {
+		return substantId;
+	}
+	public void setSubstantId(String substantId) {
+		this.substantId = substantId;
 	}*/
-	public String getFunding() {
-		return funding;
+	public String getSubstantiation() {
+		return substantiation;
 	}
-	public void setFunding(String funding) {
-		this.funding = funding;
+	public void setSubstantiation(String substantiation) {
+		this.substantiation = substantiation;
 	}
 	public Integer getProjectCount() {
 		return projectCount;
@@ -60,13 +66,18 @@ public class Res2 implements Serializable{
 	public void setZakCount(Integer zakCount) {
 		this.zakCount = zakCount;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Res [fundingId=" + fundingId + ", funding=" + funding
-				+ ", projectCount=" + projectCount + ", ispCount=" + ispCount
-				+ ", zakCount=" + zakCount + "]";
+		return "ResExt3 [substantId=" + substantId + ", substantiation="
+				+ substantiation + ", projectCount=" + projectCount
+				+ ", ispCount=" + ispCount + ", zakCount=" + zakCount + "]";
 	}
+	
+	
+	
+	
+
 
 
 	
