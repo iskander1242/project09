@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
@@ -56,9 +58,6 @@ public class EServicesController {
 	private static Logger log = Logger.getLogger(EServicesController.class);
 
 	@Autowired
-	@Qualifier("userService")
-	private UserService userService;
-	@Autowired
 	@Qualifier("anketaService")
 	private AnketaService anketaService;
 	@Autowired
@@ -76,8 +75,14 @@ public class EServicesController {
 	@Autowired
 	@Qualifier("eServicesServiceSqlServer")	
 	private EServicesServiceSqlServer eServicesServiceSqlServers;
-
+	
 	@RenderMapping
+	public String renderServiceList(){
+		return "eServiceList";
+	}	
+
+
+	@RenderMapping(params="view=eServices")
 	public String renderView(Model model, PortletRequest request)
 			throws ServiceException, DaoException {
 		AnketaDTO anketaDTO = null;

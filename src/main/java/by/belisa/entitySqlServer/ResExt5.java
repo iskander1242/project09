@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({"sector","projectCount","ispCount","zakCount","amount"})
+@JsonPropertyOrder({"sector","projectCount","ispCount","zakCount","amount","budget"})
 @Entity
 public class ResExt5 extends Res5  implements Serializable{
 
@@ -28,8 +28,7 @@ public class ResExt5 extends Res5  implements Serializable{
 	
 	
 	@Column(name="Amount")
-	private Float amount;
-	@JsonIgnore
+	private Float amount;	
 	@Column(name="Budget")
 	private Float budget;
 	

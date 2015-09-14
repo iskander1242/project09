@@ -96,8 +96,7 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	
 	/*for(ResExt1 i:result1){
 		System.out.println(i);
-	} */
-	
+	} */	
 	
 	
 	List<ResExt2>	result2=
@@ -106,8 +105,7 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	
 /*	for(ResExt2 i:result2){
 		System.out.println(i);
-	} */
-	
+	} */	
 	
 	List<ResExt3>	result3=
 				(List<ResExt3>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01ext @startdate='"+dfrom+"', @enddate='"+dto+"', @query=3")
@@ -115,8 +113,7 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	
 /*	for(ResExt3 i:result3){
 		System.out.println(i);
-	} */
-	
+	} */	
 	
 	List<ResExt4>	result4=
 				(List<ResExt4>) getSession().createSQLQuery("exec ServiceGR.dbo.Service01ext @startdate='"+dfrom+"', @enddate='"+dto+"', @query=4")
