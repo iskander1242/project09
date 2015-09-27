@@ -33,7 +33,7 @@
 <a href="${serviceListUrl}">Вернуться к списку услуг</a>
 <div class="paging"></div>
 <aui:form method="POST" action="${sendForm}" name="anketa"  >
-	<aui:input name="dfrom" label="Дата начала выборки" value="${anketa.birthday}" bean="anketa" onchange="showDfrom(this.value)">
+	<aui:input name="dfrom" label="Дата начала выборки"  bean="anketa" onchange="showDfrom(this.value)">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты гггг-мм-дд">
 						function (val, fieldNode, ruleValue) {
@@ -46,7 +46,7 @@
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:input name="dto" label="Дата завершения выборки"  value="${anketa.birthday}" bean="anketa"  onchange="showDto(this.value)">
+	<aui:input name="dto" label="Дата завершения выборки"   bean="anketa"  onchange="showDto(this.value)">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты гггг-мм-дд">
 						function (val, fieldNode, ruleValue) {

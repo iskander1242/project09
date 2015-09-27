@@ -30,6 +30,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.ServiceData;
 import by.belisa.bean.ServiceDataExt;
+import by.belisa.bean.ServiceDataNTD;
 import by.belisa.entity.ANO;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
@@ -93,11 +94,11 @@ public class EServicesController {
 				anketaDTO = anketaService.getDTO(pk);
 				if (anketaDTO.getId() == 0) {				
 					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-					anketaDTO.setBirthday(df.format(user.getBirthday()));
+					//anketaDTO.setBirthday(df.format(user.getBirthday()));
 				}
 
 			} else {
-				anketaDTO = new AnketaDTO();
+				//anketaDTO = new AnketaDTO();
 			}
 
 		} catch (PortalException e) {
@@ -113,7 +114,41 @@ public class EServicesController {
 		model.addAttribute("servicesList", servicesList);
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
-	}	
+	}
+	
+	
+	@RenderMapping(params="view=eServiceUGR02")
+	public String renderServiceUGR02(Model model, PortletRequest request)
+			throws ServiceException, DaoException {
+		AnketaDTO anketaDTO = null;
+		try {
+			com.liferay.portal.model.User user = PortalUtil.getUser(request);
+			if (user != null) {
+				long pk = user.getPrimaryKey();
+				anketaDTO = anketaService.getDTO(pk);
+				if (anketaDTO.getId() == 0) {				
+					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+					//anketaDTO.setBirthday(df.format(user.getBirthday()));
+				}
+
+			} else {
+				//anketaDTO = new AnketaDTO();
+			}
+
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Organization> orgList = orgService.getAll();
+		
+		List<Services> servicesList =eServicesServiceOracle.getAllbyPublication(new Long(1));	
+		model.addAttribute("servicesList", servicesList);
+		model.addAttribute("anketa", anketaDTO);
+		return "eServiceUGR02";
+	}
 	
 	@ResourceMapping
 	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
@@ -132,7 +167,7 @@ public class EServicesController {
 				String jsonString = mapper.writeValueAsString(serviceData);
 				outStream.write(jsonString.getBytes());
          }
-		} else{
+		} else if  (unp.equals("52")) {
 			ServiceDataExt  serviceData=eServicesServiceSqlServers.getService01ResExt(dfrom, dto);			 
 			 
 	         try (OutputStream outStream = resp.getPortletOutputStream()){
@@ -141,7 +176,14 @@ public class EServicesController {
 					outStream.write(jsonString.getBytes());
 	         }
 			
+		} else if  (unp.equals("51")){ 
+			System.out.println("51+++++++++++++++++++++++++++++++++");
+		    ServiceDataNTD serviceDataNTD=eServicesServiceSqlServers.getService02(dfrom);	
+		    try (OutputStream outStream = resp.getPortletOutputStream()){
+				ObjectMapper mapper = new ObjectMapper();
+				String jsonString = mapper.writeValueAsString(serviceDataNTD);
+				outStream.write(jsonString.getBytes());
+         }
 		}
-	}
-
+	}	
 }

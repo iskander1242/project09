@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import by.belisa.bean.ServiceData;
 import by.belisa.bean.ServiceDataExt;
+import by.belisa.bean.ServiceDataNTD;
 import by.belisa.entity.Services;
+import by.belisa.entitySqlServer.Funding;
 import by.belisa.entitySqlServer.Res1;
 import by.belisa.entitySqlServer.Res11;
 import by.belisa.entitySqlServer.Res2;
@@ -30,6 +32,7 @@ import by.belisa.entitySqlServer.ResExt4;
 import by.belisa.entitySqlServer.ResExt5;
 import by.belisa.entitySqlServer.ResExt6;
 import by.belisa.entitySqlServer.ResExt7;
+import by.belisa.entitySqlServer.ResultNTI;
 
 @Repository
 public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
@@ -150,6 +153,36 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 	serviceDataExt.setListResExt7(result7);
 	
 	return serviceDataExt;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public  ServiceDataNTD getResNTD(String num){
+	
+/*	String num1="20102010";	*/	
+		
+	ServiceDataNTD serviceDataNTD =new ServiceDataNTD();
+		
+	List<Funding>	fundingList=(List<Funding>) getSession().createSQLQuery("exec dbo.Service02 @projectid='"+num+"',  @query=2")
+				.addEntity(Funding.class).list();
+	
+/*	for(Funding i : fundingList){
+		System.out.println(i);
+	}*/
+	
+	List<ResultNTI>	resultNTIList=(List<ResultNTI>) getSession().createSQLQuery("exec dbo.Service02 @projectid='"+num+"',  @query=1")
+				.addEntity(ResultNTI.class).list();		
+	
+
+/*	for(ResultNTI i : resultNTIList){
+		System.out.println(i);
+	}*/
+	
+
+	serviceDataNTD.setResultNTIList(resultNTIList);
+	serviceDataNTD.setFundingList(fundingList);
+	
+	return serviceDataNTD;
 	}
 
 

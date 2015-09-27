@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import by.belisa.bean.ServiceData;
 import by.belisa.bean.ServiceDataExt;
+import by.belisa.bean.ServiceDataNTD;
 import by.belisa.dao.Dao;
 import by.belisa.dao.EServicesDao;
 import by.belisa.dao.EServicesDaoSqlServer;
@@ -41,4 +42,9 @@ public class EServicesServiceSqlServer extends ServiceImpl<Services, Integer>{
 	public ServiceDataExt getService01ResExt(String dfrom, String dto){
 		 return ((EServicesDaoSqlServer)baseDao).getResExt(dfrom, dto);
 	}
+    
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+   	public ServiceDataNTD getService02(String num){
+   		 return ((EServicesDaoSqlServer)baseDao).getResNTD(num);
+   	}
 }
