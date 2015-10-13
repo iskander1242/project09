@@ -2,8 +2,10 @@
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -180,6 +183,17 @@ public class Services implements Serializable{
 	}
 	public void setModeration(Long moderation) {
 		this.moderation = moderation;
+	}
+	@Override
+	public String toString() {
+		return "Services [id=" + id + ", name=" + name + ", description="
+				+ description + ", note=" + note + ", link=" + link + ", kod="
+				+ kod + ", id_class=" + id_class + ", autorization="
+				+ autorization + ", platnost=" + platnost + ", publication="
+				+ publication + ", template=" + Arrays.toString(template)
+				+ ", mimeTypeTemplate=" + mimeTypeTemplate + ", nameTemplate="
+				+ nameTemplate + ", moderation=" + moderation + ", infoSystem="
+				+ infoSystem + ", shifr=" + shifr + ", stb=" + stb + "]";
 	}
 
 	

@@ -18,10 +18,10 @@ public class EServicesDao extends DaoImpl<Services, Integer>{
 		super(Services.class);
 	}
 	
-	public List<Services> getAllbyPublication(Long pubblication){
+	public List<Services> getAllbyPublication(){
 //		Query q = getSession().createQuery("FROM Services WHERE publication=1");
 		Criteria q = getSession().createCriteria(Services.class).add(
-				Restrictions.sqlRestriction("upper({alias}.SHIFR) like upper(?)", "угр01%", Hibernate.STRING)
+				Restrictions.sqlRestriction("publication=1 and info_system='реестр'")
 				);	
 	    return q.list(); 
 	}

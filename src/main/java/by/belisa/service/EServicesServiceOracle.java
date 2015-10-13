@@ -25,7 +25,6 @@ public class EServicesServiceOracle extends ServiceImpl<Services, Integer>{
 		super(Services.class);
 	}
 	
-	
 
 	@Override
 	@Autowired
@@ -34,22 +33,8 @@ public class EServicesServiceOracle extends ServiceImpl<Services, Integer>{
 		super.setBaseDao(baseDao);
 	}
 	
-
-
-/*	@Autowired
-	@Qualifier("eServicesDaoSqlServer")
-	protected void setSqlServerDao(Dao<Services, Integer> sqlServerDao) {
-		this.sqlServerDao=sqlServerDao;
-	}*/
-	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Services> getAllbyPublication(long publication){
-		return ((EServicesDao)baseDao).getAllbyPublication(new Long(1));
+	public List<Services> getAllbyPublication(){
+		return ((EServicesDao)baseDao).getAllbyPublication();
 	}
-	
-/*	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public void getExt(){
-		 ((EServicesDaoSqlServer)sqlServerDao).getExt();;
-	}*/
-
 }
