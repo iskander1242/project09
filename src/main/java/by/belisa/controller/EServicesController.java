@@ -74,6 +74,18 @@ import com.liferay.portal.util.PortalUtil;
 // @SessionAttributes("anketa")
 public class EServicesController {
 	private static Logger log = Logger.getLogger(EServicesController.class);
+	
+	enum ServiceType{
+		jeneralService(53),extendedService(52);
+		ServiceType(int type){
+			this.type=type;
+		}
+		private int type;
+		
+	    public int getType(){
+	    	return type;
+	    }		
+	}
 
 	@Autowired
 	@Qualifier("anketaService")
@@ -115,7 +127,7 @@ public class EServicesController {
 
 
 	@RenderMapping(params="view=eServices")
-	public String renderView(Model model, PortletRequest request)
+	public String renderView(Model model, RenderRequest request)
 			throws ServiceException, DaoException {
 		AnketaDTO anketaDTO = null;
 		try {
@@ -131,7 +143,7 @@ public class EServicesController {
 			} else {
 				//anketaDTO = new AnketaDTO();
 			}
-
+			System.out.println("+++++++++++++++++"+request.getParameter("type"));
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,7 +152,7 @@ public class EServicesController {
 			e.printStackTrace();
 		}
 		List<Organization> orgList = orgService.getAll();		
-		
+		model.addAttribute("type", ServiceType.valueOf(request.getParameter("type")).getType());
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
 	}
@@ -176,7 +188,7 @@ public class EServicesController {
 		return "eServiceUGR02";
 	}
 	
-	@ResourceMapping
+	@ResourceMapping(value ="getFiles")
 	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
 		System.out.println("!!!!checkUnp");
 			
@@ -243,9 +255,7 @@ public class EServicesController {
 	//@ActionMapping(value = "myActions=uploadMultipleFile")
 	@ActionMapping(params = "myActions=uploadMultipleFile")		
 	//public @ResponseBody LinkedList<FileMeta> upload(MultipartActionRequest MultipartHttpServletRequest request, HttpServletResponse response) {
-    public void  upload(MultipartActionRequest request, ActionResponse response) throws IOException {
-         System.out.println("111111");
-         //response.setRenderParameter("javax.portlet.action", "success");
+    public void  upload(MultipartActionRequest request, ActionResponse response) throws IOException {  
     	 Iterator<String> itr =  request.getFileNames();
 		 MultipartFile mpf = null;
 
@@ -288,10 +298,40 @@ public class EServicesController {
  
 	}
 	
-	@ResourceMapping(value ="getFiles")
+	
+//	@ResourceMapping()
+//	 public void getUsloviy(ResourceRequest request, ResourceResponse response) {
+//	  
+//	  String konkursId = ParamUtil.getString(request, "konkursId");
+//	  byte[] usloviy = konkursyService.getUsloviy(Integer.parseInt(konkursId));
+//	  response.setContentType("application/msword");
+//	  response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+//	  response.setContentLength(usloviy.length);
+//	  response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=uslovia.doc");
+//	  OutputStream outStream = null;
+//	  try {
+//	   outStream = response.getPortletOutputStream();
+//	   outStream.write(usloviy);
+//	   outStream.flush();
+//	  } catch (IOException e) {
+//	   // TODO Auto-generated catch block
+//	   e.printStackTrace();
+//	  } finally {
+//	   if (outStream != null) {
+//	    try {
+//	     outStream.close();
+//	    } catch (IOException e) {
+//	     // TODO Auto-generated catch block
+//	     e.printStackTrace();
+//	    }
+//	   }
+//	  }
+//	 }
+	
+/*	@ResourceMapping(value ="getFiles")
 	public void getFiles(ResourceRequest req, ResourceResponse resp) throws IOException{
 		System.out.println("!!!!!getFiles");
 	}		
-
+*/
 	
 }

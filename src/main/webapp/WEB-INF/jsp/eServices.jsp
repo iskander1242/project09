@@ -59,13 +59,13 @@
 						}
 		</aui:validator>
 	</aui:input>
-	<aui:select name="orgId" class="chosen" label="Выбор услуги" onchange="showTeams(this.value);">
-		<aui:option value=""></aui:option>
-		<c:forEach var="i" items="${servicesList}">
-			<aui:option value="${i.id}" label="${i.name}"
-				selected="${i.id==anketa.orgId}"></aui:option>
-		</c:forEach>
-	</aui:select>
+<%-- 	<aui:select name="orgId" class="chosen" label="Выбор услуги" onchange="showTeams(this.value);"> --%>
+<%-- 		<aui:option value=""></aui:option> --%>
+<%-- 		<c:forEach var="i" items="${servicesList}"> --%>
+<%-- 			<aui:option value="${i.id}" label="${i.name}" --%>
+<%-- 				selected="${i.id==anketa.orgId}"></aui:option> --%>
+<%-- 		</c:forEach> --%>
+<%-- 	</aui:select> --%>
 	
 	
 	
@@ -89,7 +89,8 @@
 <portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
 <aui:script>
 $(document).ready(function() {	
-	
+
+
 	$('.disbl').attr('disabled', 'disabled');
 	
 	//$('.aui-field-select').on("change", showTeams);
@@ -106,14 +107,14 @@ $(document).ready(function() {
 
 
 function checkParam(){
- 	if (showTeams.res)
- 		/* 	&& showDto.res && showDfrom.res)   */
-	{ 
+ /* 	if (showTeams.res)
+ 		/* 	&& showDto.res && showDfrom.res)  
+	{  */
  		//  $('#t1').html('<img src="http://preloaders.net/preloaders/287/Filling%20broken%20ring.gif"> .');
 		showData();
-	 }else{
-		alert('Заполните параметры запроса!!!');
-	} 
+// 	 }else{
+// 		alert('Заполните параметры запроса!!!');
+// 	} 
 }
 
 function buttonOff(){   
@@ -167,7 +168,12 @@ $(document).ajaxStop(function(){
 });
 
 
-function showData(){
+function showData(){	
+	// получение парамета тип услуги из модели
+	/*  alert(1111111111111111);*/
+	showTeams("${type}");
+/* 	alert(showTeams.res);
+	 */
 	buttonOff();
 	 $('#t1').empty(); 
 	// progressBar();	 
@@ -338,14 +344,6 @@ function showData(){
 	
 }
 
-
-function showTeams(param){
-	                     
-	showTeams.res = param;      
-	                     
-	              }
-
-
 	              
 function LoadCustomers(data, titles, headers) {
 
@@ -423,6 +421,10 @@ function showDto(param){
 
 function asd(){
 	alert(showTeams.res);	
-} 
+}
+
+function showTeams(param){    
+	showTeams.res = param;  
+	}
  </aui:script>
 

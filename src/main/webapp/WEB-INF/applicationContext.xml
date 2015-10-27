@@ -38,6 +38,13 @@
 	<bean id="eServicesServiceOracle" class="by.belisa.service.EServicesServiceOracle"></bean>
 	<bean id="eServicesServiceSqlServer" class="by.belisa.service.EServicesServiceSqlServer"></bean>	
 	<bean id="EServicesController" class="by.belisa.controller.EServicesController"></bean>
+<!-- 	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/> -->
+	<bean id="portletMultipartResolver"
+    class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
+
+    <!-- one of the properties available; the maximum file size in bytes -->
+    <property name="maxUploadSize" value="100000"/>
+    </bean>
 	
 	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
