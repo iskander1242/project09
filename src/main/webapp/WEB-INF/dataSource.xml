@@ -21,6 +21,7 @@
 		<property name="password" value="${jdbc.password}" />
 		<property name="validationQuery" value="select 1 from dual"/>
 		<property name="testWhileIdle" value="true"/>
+		<!-- <property name="showSql" value="true"/> -->
 	</bean>
 	
 	 <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"

@@ -23,8 +23,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <portlet:defineObjects />
- <portlet:actionURL var="uploadFileURL">
-<portlet:param name="myActions" value="uploadMultipleFile"></portlet:param>
+<portlet:actionURL var="uploadFileURL">
+	<portlet:param name="myActions" value="uploadMultipleFile"></portlet:param>
 </portlet:actionURL>
 <portlet:renderURL var="serviceListUrl">
 </portlet:renderURL>
@@ -32,18 +32,22 @@
 	<portlet:namespace />
 </c:set>
 <portlet:resourceURL var="getFiles" id="getFile"></portlet:resourceURL>
+<portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
+<%-- <portlet:resourceURL var="addFilesMy" id="addFiles"></portlet:resourceURL> --%>
+<portlet:resourceURL var="getFilesMy" id="getFiles"></portlet:resourceURL>
 
 <a href="${serviceListUrl}">Вернуться к списку услуг!!!</a>
 
 <h1>Spring MVC - jQuery File Upload</h1>
-<div style="width:500px;padding:20px">
+<div style="width: 500px; padding: 20px">
 
-	 <input id="fileupload" type="file" name="files[]" data-url="<portlet:actionURL><portlet:param name='myActions' value='uploadMultipleFile'/></portlet:actionURL>" multiple>
-	  <!-- input id="fileupload" type="file" name="files[]" data-url="rest/controller/upload" multiple> -->
-	 <div id="dropzone" class="fade well">Drop files here</div>
-	
+	<input id="fileupload" type="file" name="files[]"
+		data-url="<portlet:actionURL><portlet:param name='myActions' value='uploadMultipleFile'/></portlet:actionURL>"
+		multiple>
+	<div id="dropzone" class="fade well">Drop files here</div>
+
 	<div id="progress" class="progress">
-    	<div class="bar" style="width: 0%;"></div>
+		<div class="bar" style="width: 0%;"></div>
 	</div>
 
 	<table id="uploaded-files" class="table">
@@ -54,18 +58,14 @@
 			<th>Download</th>
 		</tr>
 	</table>
-	
+
 </div>
 <div class="paging"></div>
 <div id="notFoundResult" style="display: none">
 	<p>Данные не найдены</p>
 </div>
-<div id="t1">    
-</div>
+<div id="t1"></div>
 
-
-<portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
-<portlet:resourceURL var="getFilesMy" id="getFile"></portlet:resourceURL> 
 <aui:script>
 $(document).ready(function() {	
 	
@@ -80,27 +80,8 @@ $(document).ready(function() {
 		width : '90%'
 	});
 	
-	$('#checkBtn').click(checkParam);	
+	showDataLocal();
 });
-
-
-function checkParam(){ 
-	 showData();
-}
-
-function buttonOff(){   
-     $('#checkBtn').off()
- }
- 
-function buttonOn(){   
-	$('#checkBtn').click(checkParam);
-}
-
-function getURL(){   
-	return '${checkUnpUrl}';
-}
-
-
 
 function progressBar(){
 	progressBar.interval = 0;
@@ -128,7 +109,7 @@ function progressBar(){
 
 
 
-$(document).ajaxStart(function(){
+/* $(document).ajaxStart(function(){
 	
 	progressBar();	
 	
@@ -140,172 +121,76 @@ $(document).ajaxStop(function(){
 	progressBar.interval = 50;	
 	
 	
-});
+}); */
 
-
-function showData(){
-	buttonOff();
-	 $('#t1').empty(); 
-	// progressBar();	 
-	$('#notFoundResult').css('display','none');
-	$('#foundResult').css('display','none');
-	//var data = {"unp":$('#unpInputId').val()}; 
-	var data = {"unp": 51,"dfrom": showDfrom.res};
+function callServeResource(fileName){
+	//alert("callServeResource!!");
+	//alert(fileName);	
+	var data = {"fileName": fileName};
 	$.ajax({
-	   url: '${getFilesMy}',
-	   dataType: 'json',
-	   data: data,
-	   success: function(data) {
-		   alert("su");
-		 //  progressBar.interval = 98;  
-		   var currentdate = new Date(); 
-                var datetime = "Now: " + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-				   
-		   var titles ={
-
-				   "1": {title1:"Номер государственной регистрации проекта (НИОКТР)",
-				       title2: "Наименование проекта",
-				       title3:"Наименование организации-исполнителя проекта",
-				       title4: "Дата приема отчетной документации в ГР",
-				       title5: "Дата утверждения отчета о НИР(пояснительной записки к ОКР, ОТР)",
-				       title6: "Инвентарный номер отчета в ГР",
-				       title7: "Созданные объекты интеллектуальной собственности",				       
-				       title8:"Фактический объем финансирования",
-				       title9:"Номер(а)  регистрации в ГУ 'НЦИС'" 
-				   },
-
-				   "2":{title1: "Идентификатор источника финансирования научной деятельности",
-				                   title2: "Источник финансирования научной деятельности",
-				                   title3:"Объём финансирования (тыс. руб.)"				         
-				                   }				  
-
-				   };
-		   
-		   var headers = {
-				    "1": "СВЕДЕНИЯ из государственного реестра  НИОК(Т)Р для государственного реестра"+ 
-				    "прав на результаты научно-технической деятельности по запросу НЦИС от "+currentdate.getDate() + "/"
-	                + (currentdate.getMonth()+1)  + "/"+ currentdate.getFullYear()+ " "+currentdate.getHours()+"ч."+currentdate.getMinutes()+"м.",
-				    "2": "Источники финансирования"
-				};
-		   LoadCustomers(data, titles, headers);   		 	   
-	   }
-	 });
-	
-	
-}
-	              
-function LoadCustomers(data, titles, headers) {
-//	alert("su2");
-    $("#t1").empty();
-    var _addHead = function (titles) {
-
-        var thead = document.createElement("thead");
-        var tr = document.createElement("tr");
-        var td, tn, h5;
-
-
-        $.each(titles, function (key, value) {
-
-            td = document.createElement("td");
-            tn = document.createTextNode(value);
-            td.appendChild(tn);
-            tr.appendChild(td);
-
-        });
-
-        thead.appendChild(tr);
-
-        return thead;
-
-    };
-    
-var uid = 0;
-    for(var o in data) {
-
-        var listRes2 = data[o];
-        uid = ++uid;
-        if (listRes2.length > 0) {
-            var table = document.createElement("table");
-
-            var td, tn;
-            for (var i = 0; i < listRes2.length; i++) {
-                var tr = document.createElement("tr");
-
-                var obj = listRes2[i];
-
-                $.each(obj, function (key, value) {
-
-                    td = document.createElement("td");
-                    tn = document.createTextNode(value);
-                    td.appendChild(tn);
-                    tr.appendChild(td);
-
-                });
-                table.appendChild(tr);
-
-
-            }
-            
-            h5 = document.createElement("h5");
-            $(h5).html(headers[uid]);
-            $("#t1").append(h5);
-            table.appendChild(_addHead(titles[uid]));
-            $("#t1").append(table).addClass("table table-bordered table-striped table-hover");;
-        } else {
-        	$("#t1 h5").remove();
-        	$("#t1").append("<h5 color='red'>Данные не найдены, уточните параметры запроса!!</h5>")
-        }
-    }
-    
-    buttonOn();
-}
-	              
-function showDfrom(param){
-	 showDfrom.res = param;  
-}
-
-/* 
-function showDto(param){
-	showDto.res = param;  
-} */
-
-function asd(){
-	alert(showTeams.res);	
-} 
-
-
-/* function showTeams(param){
-	                     
-	showTeams.res = param;      
-	                     
-} */
+		   url: '${getFilesMy}',
+		   data: data,
+		   success: function (data) {		
+			window.open(this.url)
+	       },
+	      /*  complete:function (jqXHR, textStatus) {
+				alert('Complite!!!!'+textStatus);			
+		   } */
+		 });	
+}           
 
  function showDataLocal(){  
-	alert('Su');  
+	//alert('Su');  
 	var data = {"unp": 50};
 	$.ajax({
-	   url: '${getFilesMy}',
+	   url: '${checkUnpUrl}',
 	   dataType: 'json',
 	   data: data,
-	   success: function (data) {
-		alert('Su!!!!');
+	   success: function (data) {		
        	$("tr:has(td)").remove();
         $.each(data, function (index, file) {
+        	var myString = "<button  id='btnLoad' value='"+file.Id+"'>Загрузить</button>";
+			var $jQueryObject = $($.parseHTML(myString));
+			$jQueryObject.click(function(){
+				callServeResource($($jQueryObject).val())
+			});
+        	
             $("#uploaded-files").append(
             		$('<tr/>')
             		.append($('<td/>').text(file.fileName))
             		.append($('<td/>').text(file.fileSize))
             		.append($('<td/>').text(file.fileType))
-            		.append($('<td/>').html("<a href='rest/controller/get/"+index+"'>Click</a>"))
+            		.append($('<td/>').append($jQueryObject))
             		)
-         }); 
+         });       
         }
 	 });	
 } 
+
+$('#fileupload').fileupload(
+    	{
+        //dataType: 'json', 
+        complete:function (e, msg){        	
+        	showDataLocal();
+        },
+        
+        progressall: function (e, data) {
+        	$('#progress .bar').css('width','0%');
+	        var progress = parseInt(data.loaded / data.total * 100, 10);
+	        $('#progress .bar').css(
+	            'width',
+	            progress + '%'
+	        );
+   		},
+   		
+		dropZone: $('#dropzone')
+    }
+    );
+    
+/* $(document).ajaxStop(function(){
+    //alert('All uploads done');  
+    $(this).unbind("ajaxStop");
+    showDataLocal();    
+}); */
  </aui:script>
 

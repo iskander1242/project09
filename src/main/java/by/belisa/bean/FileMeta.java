@@ -1,5 +1,7 @@
 package by.belisa.bean;
 
+import java.util.Arrays;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"bytes"})
@@ -35,4 +37,12 @@ public class FileMeta {
 	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
 	}
+	@Override
+	public String toString() {
+		return "FileMeta [fileName=" + fileName + ", fileSize=" + fileSize
+				+ ", fileType=" + fileType + ", bytes="
+				+ Arrays.toString(bytes) + "]";
+	}
+	
+	
 }

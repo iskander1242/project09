@@ -33,7 +33,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<!-- <prop key="hibernate.current_session_context_class">thread</prop>-->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
@@ -58,6 +58,8 @@
 				<value>by.belisa.entity.News</value>
 				<value>by.belisa.entity.FullNews</value>
 			    <value>by.belisa.entity.Services</value>
+			   <!--  <value>by.belisa.entity.FileResult</value> -->
+			  <value>by.belisa.entity.Zapros</value> 
 			</list>
 		</property>
 

@@ -1,30 +1,36 @@
- package by.belisa.entity;
+package by.belisa.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
+@SequenceGenerator(name="my_entity_seq_gen", sequenceName="SERVICES.SEQ_SERVICES")
 @Table(schema="SERVICES",name="SERVICES")
 public class Services implements Serializable{
 	/**
@@ -59,6 +65,7 @@ public class Services implements Serializable{
 	
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="my_entity_seq_gen")
 	@Column(name = "id")  	 
 	private Long id;
 	@Column(name="NAME")
@@ -96,7 +103,9 @@ public class Services implements Serializable{
 	@Column(name="SHIFR")
 	private String shifr;
 	@Column(name="STB")
-	private String stb;
+	private String stb;	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "services")
+	private Set<Zapros> zaproses = new HashSet<Zapros>(0);
 	
 	
 
@@ -184,19 +193,26 @@ public class Services implements Serializable{
 	public void setModeration(Long moderation) {
 		this.moderation = moderation;
 	}
+	
+	public Set<Zapros> getZaproses() {
+		return zaproses;
+	}
+	public void setZaproses(Set<Zapros> zaproses) {
+		this.zaproses = zaproses;
+	}
+	
 	@Override
 	public String toString() {
 		return "Services [id=" + id + ", name=" + name + ", description="
 				+ description + ", note=" + note + ", link=" + link + ", kod="
 				+ kod + ", id_class=" + id_class + ", autorization="
 				+ autorization + ", platnost=" + platnost + ", publication="
-				+ publication + ", template=" + Arrays.toString(template)
+				+ publication 
+			/*	+ ", template=" + Arrays.toString(template)*/
 				+ ", mimeTypeTemplate=" + mimeTypeTemplate + ", nameTemplate="
 				+ nameTemplate + ", moderation=" + moderation + ", infoSystem="
-				+ infoSystem + ", shifr=" + shifr + ", stb=" + stb + "]";
+				+ infoSystem + ", shifr=" + shifr + ", stb=" + stb
+	/*			+ ", zaproses=" + zaproses + */
+				+"]";
 	}
-
-	
-
-	
 }

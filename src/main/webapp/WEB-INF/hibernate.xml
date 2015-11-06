@@ -62,6 +62,8 @@
 				<value>by.belisa.entity.Country</value>
 				<value>by.belisa.entity.NewTech</value>
 				<value>by.belisa.entity.Services</value>
+				<value>by.belisa.entity.Zapros</value>
+				<value>by.belisa.entity.FileResult</value>
 			</list>
 		</property>
 

@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.Provider.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +50,7 @@ import by.belisa.bean.ServiceData;
 import by.belisa.bean.ServiceDataExt;
 import by.belisa.bean.ServiceDataNTD;
 import by.belisa.entity.ANO;
+import by.belisa.entity.FileResult;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
 import by.belisa.entity.Services;
@@ -66,17 +69,20 @@ import by.belisa.service.UserService;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.util.PortalUtil;
 
 
 @RequestMapping(value = "VIEW")
-// @SessionAttributes("anketa")
 public class EServicesController {
 	private static Logger log = Logger.getLogger(EServicesController.class);
 	
 	enum ServiceType{
-		jeneralService(53),extendedService(52);
+		jeneralService(53),
+		extendedService(52);
+		
 		ServiceType(int type){
 			this.type=type;
 		}
@@ -176,11 +182,9 @@ public class EServicesController {
 				//anketaDTO = new AnketaDTO();
 			}
 
-		} catch (PortalException e) {
-			// TODO Auto-generated catch block
+		} catch (PortalException e) {		
 			e.printStackTrace();
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
+		} catch (SystemException e) {		
 			e.printStackTrace();
 		}
 		List<Organization> orgList = orgService.getAll();		
@@ -188,86 +192,70 @@ public class EServicesController {
 		return "eServiceUGR02";
 	}
 	
-	@ResourceMapping(value ="getFiles")
+	@ResourceMapping
+	//@ResourceMapping(value ="addFiles")
 	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
-		System.out.println("!!!!checkUnp");
-			
+		System.out.println("!!!!checkUnp");	
 		
 		String unp = req.getParameter("unp");
 		String dfrom=req.getParameter("dfrom");
 		String dto=req.getParameter("dto");		
-		
-		if (unp.equals("53")){		
-		ServiceData  serviceData=eServicesServiceSqlServers.getService01Res(dfrom,dto);			 
-			 
-         try (OutputStream outStream = resp.getPortletOutputStream()){
-				ObjectMapper mapper = new ObjectMapper();
-				String jsonString = mapper.writeValueAsString(serviceData);
-				outStream.write(jsonString.getBytes());
-         }
-		} else if  (unp.equals("52")) {
-			ServiceDataExt  serviceData=eServicesServiceSqlServers.getService01ResExt(dfrom, dto);			 
-			 
-	         try (OutputStream outStream = resp.getPortletOutputStream()){
-					ObjectMapper mapper = new ObjectMapper();
-					String jsonString = mapper.writeValueAsString(serviceData);
-					outStream.write(jsonString.getBytes());
-	         }
-			
-		} else if  (unp.equals("51")){ 			
-		    ServiceDataNTD serviceDataNTD=eServicesServiceSqlServers.getService02(dfrom);	
-		    try (OutputStream outStream = resp.getPortletOutputStream()){
-				ObjectMapper mapper = new ObjectMapper();
-				String jsonString = mapper.writeValueAsString(serviceDataNTD);
-				outStream.write(jsonString.getBytes());}
-		}else if  (unp.equals("50")){
-			try (OutputStream outStream = resp.getPortletOutputStream()){
-				ObjectMapper mapper = new ObjectMapper();
-				String jsonString = mapper.writeValueAsString(files);
-				outStream.write(jsonString.getBytes());}
-			catch (Exception e) {
-				throw new IOException();
-			}
-		}
-		
-	}
+	    
+		Object objectFoSerialize= null;
+		switch (Integer.valueOf(unp)){
+		   case 53:
+			   ServiceData  serviceData=eServicesServiceSqlServers.getService01Res(dfrom,dto);	
+			   objectFoSerialize=serviceData;
+			   break;
+		   case 52:
+			  ServiceDataExt  serviceData1=eServicesServiceSqlServers.getService01ResExt(dfrom, dto);
+			  objectFoSerialize=serviceData1;
+			  break;
+		   case 51:
+			   ServiceDataNTD serviceDataNTD=eServicesServiceSqlServers.getService02(dfrom);
+			   objectFoSerialize=serviceDataNTD;
+			   break;
+		   case 50:
+			  /* for (FileResult i: eServicesServiceOracle.getAllFile()){
+				    System.err.println(i);
+			   };*/
+			   objectFoSerialize=eServicesServiceOracle.getAllFile();
+			   break;
+		   default:
+			   throw new IllegalArgumentException();
+			  
+		}		
+		try (OutputStream outStream = resp.getPortletOutputStream()){
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(objectFoSerialize);
+			outStream.write(jsonString.getBytes());}
+		catch (Exception e) {
+			throw new IOException();
+		}		
+	}	
 	
-	/***************************************************
-	 * URL: /rest/controller/upload  
+	/***************************************************	
 	 * upload(): receives files
 	 * @param request : MultipartHttpServletRequest auto passed
-	 * @param response : HttpServletResponse auto passed
-	 * @return 
-	 * @return 
-	 * @return 
-	 * @return 
+	 * @return  
 	 * @return LinkedList<FileMeta> as json format
 	 * @throws IOException 
-	 ****************************************************/
-	/*@ResourceMapping(value="myAction")	
-	//public @ResponseBody LinkedList<FileMeta> upload(MultipartActionRequest MultipartHttpServletRequest request, HttpServletResponse response) {
-    //public @ResponseBody void upload(ResourceRequest request, ResourceResponse response) throws IOException {
-         System.out.println("111111!!!!!!!!!!!!!!!!");
-         //response.setRenderParameter("javax.portlet.action", "success");   	
- 
-	}*/
-	/*	@RequestMapping(value="/upload", method = RequestMethod.POST)*/
-	//@ActionMapping(value = "myActions=uploadMultipleFile")
+	 ****************************************************/	
 	@ActionMapping(params = "myActions=uploadMultipleFile")		
-	//public @ResponseBody LinkedList<FileMeta> upload(MultipartActionRequest MultipartHttpServletRequest request, HttpServletResponse response) {
-    public void  upload(MultipartActionRequest request, ActionResponse response) throws IOException {  
+    public void  upload(MultipartActionRequest request, ActionResponse response) throws IOException { 
+	
+	
+		
     	 Iterator<String> itr =  request.getFileNames();
-		 MultipartFile mpf = null;
-
+		 MultipartFile mpf = null;	 
 		 //2. get each file
-		 while(itr.hasNext()){
-			 
+		 while(itr.hasNext()){			 
 			 //2.1 get next MultipartFile
 			 mpf = request.getFile(itr.next()); 
 			 System.out.println(mpf.getOriginalFilename() +" uploaded! "+files.size());
 
 			 //2.2 if files > 10 remove the first from the list
-			 if(files.size() >= 10)
+			 if(files.size() >= 10)				 
 				 files.pop();
 			 
 			 //2.3 create new fileMeta
@@ -275,7 +263,8 @@ public class EServicesController {
 			 fileMeta.setFileName(mpf.getOriginalFilename());
 			 fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
 			 fileMeta.setFileType(mpf.getContentType());
-			 
+			 System.err.println("mpf.getName()=="+mpf.getName());	
+			 response.addProperty("rus", "русский");
 			 try {
 				fileMeta.setBytes(mpf.getBytes());
 				
@@ -286,52 +275,77 @@ public class EServicesController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 //2.4 add to files
+			 //2.4 add to files			 
 			 files.add(fileMeta);
-			 
+			 System.err.println("++++++++++++++++user.getPrimaryKey()=");
+			 System.err.println("++++++++++++"+getUserPk(request));
+			 eServicesServiceOracle.saveFile(getUserPk(request),mpf.getBytes(),mpf.getOriginalFilename(),mpf.getContentType(),mpf.getSize()/1024);
 		 }
 		 
-		/*// result will be like this
-		// [{"fileName":"app_engine-85x77.png","fileSize":"8 Kb","fileType":"image/png"},...]
-		
-		 return files;*/
- 
 	}
 	
-	
-//	@ResourceMapping()
-//	 public void getUsloviy(ResourceRequest request, ResourceResponse response) {
-//	  
-//	  String konkursId = ParamUtil.getString(request, "konkursId");
-//	  byte[] usloviy = konkursyService.getUsloviy(Integer.parseInt(konkursId));
-//	  response.setContentType("application/msword");
-//	  response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
-//	  response.setContentLength(usloviy.length);
-//	  response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=uslovia.doc");
-//	  OutputStream outStream = null;
-//	  try {
-//	   outStream = response.getPortletOutputStream();
-//	   outStream.write(usloviy);
-//	   outStream.flush();
-//	  } catch (IOException e) {
-//	   // TODO Auto-generated catch block
-//	   e.printStackTrace();
-//	  } finally {
-//	   if (outStream != null) {
-//	    try {
-//	     outStream.close();
-//	    } catch (IOException e) {
-//	     // TODO Auto-generated catch block
-//	     e.printStackTrace();
-//	    }
-//	   }
-//	  }
-//	 }
-	
-/*	@ResourceMapping(value ="getFiles")
+	@ResourceMapping(value ="getFiles")
 	public void getFiles(ResourceRequest req, ResourceResponse resp) throws IOException{
 		System.out.println("!!!!!getFiles");
-	}		
-*/
+		String unp = req.getParameter("fileName");			
+		FileMeta exist =null;
+		for (FileMeta i : files) {
+			if (i.getFileName().equals(unp)){
+				exist=i;
+				break;
+			} 
+		}
+		/*for (FileMeta i : files) {
+			System.out.println(i);
+		}
+		exist=files.getLast();*/
+		System.out.println("!!!!!getFiles");		
+		byte[] usloviy=null;
+		if (exist!=null){
+			  usloviy=exist.getBytes();
+			  resp.setContentType(exist.getFileType()+";charset=ISO-8859-1");	
+			  resp.setContentLength(exist.getBytes().length);
+			  resp.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+req.getParameter("fileName")+"\"");		  
+			     
+		}else {
+			usloviy="NO data found".getBytes();
+		}		  
+		OutputStream outStream = null;
+		  try {
+		   outStream = resp.getPortletOutputStream();
+		   outStream.write(usloviy);
+		   outStream.flush();
+		  } catch (IOException e) {
+		   e.printStackTrace();
+    	  } finally {
+		   if (outStream != null) {
+		    try {
+		     outStream.close();
+		    } catch (IOException e) {		  
+		     e.printStackTrace();
+		    }
+		   }		  
+		 }
+	   }
+	//TODO user?
+	 private long getUserPk(MultipartActionRequest request){
+			com.liferay.portal.model.User user;
+			long pk=0;
+			try {
+				user = PortalUtil.getUser(request);
+				if (user != null) {
+					 pk= user.getPrimaryKey();
+					 System.err.println("++++++++++++++++user.getPrimaryKey()="+pk);
+					throw new NullPointerException("curr User must be not null");
+				}
+			} catch (PortalException | SystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return pk;						
+	     }	
+	}
+
+
 	
-}
+
