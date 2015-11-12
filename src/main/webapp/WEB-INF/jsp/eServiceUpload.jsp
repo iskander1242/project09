@@ -38,7 +38,7 @@
 
 <a href="${serviceListUrl}">Вернуться к списку услуг!!!</a>
 
-<h1>Spring MVC - jQuery File Upload</h1>
+<h1>Загрузка файлов</h1>
 <div style="width: 500px; padding: 20px">
 
 	<input id="fileupload" type="file" name="files[]"
@@ -149,11 +149,16 @@ function callServeResource(fileName){
 	   success: function (data) {		
        	$("tr:has(td)").remove();
         $.each(data, function (index, file) {
-        	var myString = "<button  id='btnLoad' value='"+file.Id+"'>Загрузить</button>";
+        	var myString = "<button  id='btnLoad' value='"+file.id+"'>Загрузить</button>";
 			var $jQueryObject = $($.parseHTML(myString));
 			$jQueryObject.click(function(){
 				callServeResource($($jQueryObject).val())
 			});
+			/* var myString = "<button  id='btnDel' value='"+file.id+"'>Удалить</button>";
+			var $jQueryObjectDel = $($.parseHTML(myString));
+			$jQueryObject.click(function(){
+				callServeResource($($jQueryObjectDel).val())
+			}); */
         	
             $("#uploaded-files").append(
             		$('<tr/>')

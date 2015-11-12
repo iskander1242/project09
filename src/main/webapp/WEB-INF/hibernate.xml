@@ -64,6 +64,7 @@
 				<value>by.belisa.entity.Services</value>
 				<value>by.belisa.entity.Zapros</value>
 				<value>by.belisa.entity.FileResult</value>
+			    <value>by.belisa.entity.FileZapros</value>		
 			</list>
 		</property>
 

@@ -2,10 +2,19 @@ package by.belisa.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+
+
+
+
+
+import org.apache.commons.logging.Log;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,10 +27,19 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+
+
+
+
 import by.belisa.entity.FileResult;
+import by.belisa.entity.FileZapros;
 import by.belisa.entity.Services;
 import by.belisa.entity.Zapros;
 import by.belisa.entitySqlServer.Res1;
+import by.belisa.exception.DaoException;
 
 @Repository
 public class EServicesDao extends DaoImpl<Services, Integer>{
@@ -29,6 +47,8 @@ public class EServicesDao extends DaoImpl<Services, Integer>{
 	public EServicesDao() {
 		super(Services.class);
 	}
+	
+	private static  Logger log=Logger.getLogger(EServicesDao.class);
 	
 	List listServises =null;
 	
@@ -41,7 +61,7 @@ public class EServicesDao extends DaoImpl<Services, Integer>{
 	    return q.list(); 
 	}
 	
-	public void saveFile(long  userPk, byte[] fileStream, String fileName, String contentType, long fileSize){	
+	public void saveFile(Integer  userPk, byte[] fileStream, String fileName, String contentType, Integer fileSize){	
 		System.err.println("fileStrea="+fileStream);
 		
 		System.err.println(getCurService());
@@ -52,13 +72,13 @@ public class EServicesDao extends DaoImpl<Services, Integer>{
 		
 		Zapros zapros=new Zapros();
 		 zapros.setServices(getCurService());
-		 zapros.setIdUser(11);
+		 zapros.setIdUser(userPk);
 		 zapros.setStartDate(new Date());
 		 zapros.setZapros("select 1 from dual");
 		 
 		 System.err.println("save="+curSession.save(zapros));
 		 
-	     FileResult fileResult=new FileResult();
+	     FileZapros fileResult=new FileZapros();
 		 fileResult.setZapros(zapros);
 		 fileResult.setFileType(contentType);
 		 fileResult.setFileName(fileName);
@@ -100,21 +120,25 @@ public class EServicesDao extends DaoImpl<Services, Integer>{
 			 System.out.println(((T)i));
 		 }; */
 	   System.err.println("q.list().size()="+q.list().size());	 
+	}	
+	public List<FileResult>  getAllFiles(Integer userPk) {
+		 Criteria q = getSession().createCriteria(FileZapros.class,"f").add(Restrictions.sqlRestriction(
+					"exists (select 1 from SERVICES.ZAPROS z where z.id = this_.id_zapros and z.id_user=?)",userPk,Hibernate.INTEGER));
+		 return q.list();
 	}
 	
-/*	return "FileResult [Id=" + Id + ", zapros=" + zapros 
-			//+ ", documents="+ Arrays.toString(documents)
-			+ ", description=" + description
-			+ ", name=" + name + "]";*/
-	
-	public   ArrayList<FileResult>  getAllFiles() {
-		ProjectionList projectionList= Projections.projectionList();
-		projectionList.add(Projections.property("id"));
-		projectionList.add(Projections.property("description"));
-		projectionList.add(Projections.property("name"));
-		Criteria q = getSession().createCriteria(FileResult.class)
-				//.setProjection(projectionList)
-				;			 
-		 return (ArrayList<FileResult>) q.list(); 		
-	}	
+	@SuppressWarnings("unchecked")
+	public  <T> T getFile(Class<T> inClsss,Integer id) {
+		T o = null;
+		try {
+			log.debug(String.format("Load %s with id=%s.", typeName, id));			
+		    o = (T) getSession().load(inClsss, id);
+			log.debug(String.format("Load %s: %s.", typeName, o));
+			return o;
+		} catch (HibernateException e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return o;
+	}
 }

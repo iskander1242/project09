@@ -30,6 +30,8 @@ import org.hibernate.annotations.Fetch;
 @SequenceGenerator(name="seq_file_result",sequenceName="SERVICES.SEQ_FILE_RESULT", allocationSize=1 )
 @Table(schema="SERVICES", name="FILE_RESULT")
 public class FileResult implements java.io.Serializable {
+	
+	private static final long serialVersionUID = -4443436276052344647L;
     
 	/*
 	 CREATE TABLE "SERVICES"."FILE_RESULT" 
@@ -47,8 +49,7 @@ public class FileResult implements java.io.Serializable {
     private String fileName;
 	private String fileSize;
 	private String fileType;
-	*/
-	
+	*/	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seq_file_result")
 	private Integer Id;		
@@ -63,7 +64,7 @@ public class FileResult implements java.io.Serializable {
 	@Column(name="NAME")
 	private String fileName;
 	@Column(name="FILE_SIZE")
-	private Long fileSize;
+	private Integer fileSize;
 	
 	public Integer getId() {
 		return Id;
@@ -96,10 +97,10 @@ public class FileResult implements java.io.Serializable {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	public Long getFileSize() {
+	public Integer getFileSize() {
 		return fileSize;
 	}
-	public void setFileSize(Long fileSize) {
+	public void setFileSize(Integer fileSize) {
 		this.fileSize = fileSize;
 	}
 	@Override

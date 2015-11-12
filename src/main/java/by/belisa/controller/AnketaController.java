@@ -104,6 +104,7 @@ public class AnketaController {
 //					anketaDTO.setFio(user.getLastName() + " "
 //							+ user.getFirstName().charAt(0) + "."
 //							+ user.getMiddleName().charAt(0) + ".");
+					
 					anketaDTO.setName(user.getFirstName());
 					anketaDTO.setSurname(user.getLastName());
 					anketaDTO.setPatronymic(user.getMiddleName());

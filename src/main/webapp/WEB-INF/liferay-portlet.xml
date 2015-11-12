@@ -66,6 +66,7 @@
 		<header-portlet-css>/css/anketa/main.css</header-portlet-css>
 		<header-portlet-css>/css/bootstrap.css</header-portlet-css>
 		<header-portlet-css>/css/dropzone.css</header-portlet-css>
+		<header-portlet-css>/js/jquery-ui-1.11.4/jquery-ui.min.css</header-portlet-css>
 		<header-portlet-javascript>/js/jquery.1.9.1.min.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/jquery.plugin.min.js</header-portlet-javascript>
 		<footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
@@ -75,7 +76,7 @@
         <footer-portlet-javascript>/js/jquery.iframe-transport.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.fileupload.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/myuploadfunction.js</footer-portlet-javascript>
-        
+        <footer-portlet-javascript>/js/jquery-ui-1.11.4/jquery-ui.min.js</footer-portlet-javascript>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

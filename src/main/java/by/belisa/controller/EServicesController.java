@@ -25,6 +25,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ import by.belisa.bean.ServiceDataExt;
 import by.belisa.bean.ServiceDataNTD;
 import by.belisa.entity.ANO;
 import by.belisa.entity.FileResult;
+import by.belisa.entity.FileZapros;
 import by.belisa.entity.OrgInfo;
 import by.belisa.entity.Organization;
 import by.belisa.entity.Services;
@@ -74,23 +76,27 @@ import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.util.PortalUtil;
 
-
 @RequestMapping(value = "VIEW")
 public class EServicesController {
 	private static Logger log = Logger.getLogger(EServicesController.class);
 	
-	enum ServiceType{
-		jeneralService(53),
-		extendedService(52);
-		
-		ServiceType(int type){
-			this.type=type;
+	private String DOC_CONTENT_TYPE="application/msword";	
+
+	private String DOCX_CONTENT_TYPE="application/"
+			+ "vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+	private static enum ServiceType {
+		jeneralService(53), extendedService(52);
+
+		ServiceType(int type) {
+			this.type = type;
 		}
+
 		private int type;
-		
-	    public int getType(){
-	    	return type;
-	    }		
+
+		public int getType() {
+			return type;
+		}
 	}
 
 	@Autowired
@@ -104,35 +110,35 @@ public class EServicesController {
 	private UchZvaniyService uchZvaniyService;
 	@Autowired
 	@Qualifier("orgService")
-	private OrgService orgService;	
+	private OrgService orgService;
 	@Autowired
-	@Qualifier("eServicesServiceOracle")	
+	@Qualifier("eServicesServiceOracle")
 	private EServicesServiceOracle eServicesServiceOracle;
 	@Autowired
-	@Qualifier("eServicesServiceSqlServer")	
+	@Qualifier("eServicesServiceSqlServer")
 	private EServicesServiceSqlServer eServicesServiceSqlServers;
-	
 
-	public LinkedList<FileMeta> files = new LinkedList<FileMeta>();
-	public FileMeta fileMeta = null;
-	
+	private LinkedList<FileMeta> files = new LinkedList<FileMeta>();
+	private FileMeta fileMeta = null;
+	private Integer CURRENT_USER_PK;
+
 	@RenderMapping
-	public String renderServiceList(Model model, PortletRequest request){
-		List<Services> servicesList =eServicesServiceOracle.getAllbyPublication();	
+	public String renderServiceList(Model model, PortletRequest request) {
+		List<Services> servicesList = eServicesServiceOracle
+				.getAllbyPublication();
 		for (Services i : servicesList) {
 			System.out.println(i);
 		}
 		model.addAttribute("servicesList", servicesList);
 		return "eServiceList";
 	}
-	
-	@RenderMapping(params="view=eServiceUpload")
-	public String renderServiceUpload(){
+
+	@RenderMapping(params = "view=eServiceUpload")
+	public String renderServiceUpload() {
 		return "eServiceUpload";
 	}
 
-
-	@RenderMapping(params="view=eServices")
+	@RenderMapping(params = "view=eServices")
 	public String renderView(Model model, RenderRequest request)
 			throws ServiceException, DaoException {
 		AnketaDTO anketaDTO = null;
@@ -140,31 +146,25 @@ public class EServicesController {
 			com.liferay.portal.model.User user = PortalUtil.getUser(request);
 			if (user != null) {
 				long pk = user.getPrimaryKey();
-				anketaDTO = anketaService.getDTO(pk);
-				if (anketaDTO.getId() == 0) {				
-					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-					//anketaDTO.setBirthday(df.format(user.getBirthday()));
-				}
-
+				System.err.println("+++user.getPrimaryKey()="
+						+ user.getPrimaryKey());
 			} else {
-				//anketaDTO = new AnketaDTO();
+				// anketaDTO = new AnketaDTO();
 			}
-			System.out.println("+++++++++++++++++"+request.getParameter("type"));
+			System.out.println("+++++++++++++++++"
+					+ request.getParameter("type"));
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		List<Organization> orgList = orgService.getAll();		
-		model.addAttribute("type", ServiceType.valueOf(request.getParameter("type")).getType());
+		}		
+		model.addAttribute("type",
+				ServiceType.valueOf(request.getParameter("type")).getType());
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
 	}
-	
-	
-	@RenderMapping(params="view=eServiceUGR02")
+
+	@RenderMapping(params = "view=eServiceUGR02")
 	public String renderServiceUGR02(Model model, PortletRequest request)
 			throws ServiceException, DaoException {
 		AnketaDTO anketaDTO = null;
@@ -173,179 +173,170 @@ public class EServicesController {
 			if (user != null) {
 				long pk = user.getPrimaryKey();
 				anketaDTO = anketaService.getDTO(pk);
-				if (anketaDTO.getId() == 0) {				
+				if (anketaDTO.getId() == 0) {
 					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-					//anketaDTO.setBirthday(df.format(user.getBirthday()));
+					// anketaDTO.setBirthday(df.format(user.getBirthday()));
 				}
 
 			} else {
-				//anketaDTO = new AnketaDTO();
+				// anketaDTO = new AnketaDTO();
 			}
 
-		} catch (PortalException e) {		
+		} catch (PortalException e) {
 			e.printStackTrace();
-		} catch (SystemException e) {		
+		} catch (SystemException e) {
 			e.printStackTrace();
 		}
-		List<Organization> orgList = orgService.getAll();		
-	
+		List<Organization> orgList = orgService.getAll();
+
 		return "eServiceUGR02";
 	}
-	
+
 	@ResourceMapping
-	//@ResourceMapping(value ="addFiles")
-	public void checkUnp(ResourceRequest req, ResourceResponse resp) throws IOException{		
-		System.out.println("!!!!checkUnp");	
-		
+	// @ResourceMapping(value ="addFiles")
+	public void checkUnp(ResourceRequest req, ResourceResponse resp)
+			throws IOException {
+		System.out.println("!!!!checkUnp");
+
 		String unp = req.getParameter("unp");
-		String dfrom=req.getParameter("dfrom");
-		String dto=req.getParameter("dto");		
-	    
-		Object objectFoSerialize= null;
-		switch (Integer.valueOf(unp)){
-		   case 53:
-			   ServiceData  serviceData=eServicesServiceSqlServers.getService01Res(dfrom,dto);	
-			   objectFoSerialize=serviceData;
-			   break;
-		   case 52:
-			  ServiceDataExt  serviceData1=eServicesServiceSqlServers.getService01ResExt(dfrom, dto);
-			  objectFoSerialize=serviceData1;
-			  break;
-		   case 51:
-			   ServiceDataNTD serviceDataNTD=eServicesServiceSqlServers.getService02(dfrom);
-			   objectFoSerialize=serviceDataNTD;
-			   break;
-		   case 50:
-			  /* for (FileResult i: eServicesServiceOracle.getAllFile()){
-				    System.err.println(i);
-			   };*/
-			   objectFoSerialize=eServicesServiceOracle.getAllFile();
-			   break;
-		   default:
-			   throw new IllegalArgumentException();
-			  
-		}		
-		try (OutputStream outStream = resp.getPortletOutputStream()){
+		String dfrom = req.getParameter("dfrom");
+		String dto = req.getParameter("dto");
+
+		Object objectFoSerialize = null;
+		switch (Integer.valueOf(unp)) {
+		case 53:
+			ServiceData serviceData = eServicesServiceSqlServers
+					.getService01Res(dfrom, dto);
+			objectFoSerialize = serviceData;
+			break;
+		case 52:
+			ServiceDataExt serviceData1 = eServicesServiceSqlServers
+					.getService01ResExt(dfrom, dto);
+			objectFoSerialize = serviceData1;
+			break;
+		case 51:
+			ServiceDataNTD serviceDataNTD = eServicesServiceSqlServers
+					.getService02(dfrom);
+			objectFoSerialize = serviceDataNTD;
+			break;
+		case 50:			
+			System.out.println("++++getCURRENT_USER_PK()="+getCURRENT_USER_PK());
+			setCURRENT_USER_PK(getUserPk(req));
+			objectFoSerialize = eServicesServiceOracle.getAllFile(getCURRENT_USER_PK());
+			break;
+		default:
+			throw new IllegalArgumentException();
+
+		}
+		try (OutputStream outStream = resp.getPortletOutputStream()) {
 			ObjectMapper mapper = new ObjectMapper();
 			String jsonString = mapper.writeValueAsString(objectFoSerialize);
-			outStream.write(jsonString.getBytes());}
-		catch (Exception e) {
+			outStream.write(jsonString.getBytes());
+		} catch (Exception e) {
 			throw new IOException();
-		}		
-	}	
-	
-	/***************************************************	
+		}
+	}
+
+	/***************************************************
 	 * upload(): receives files
-	 * @param request : MultipartHttpServletRequest auto passed
-	 * @return  
+	 * 
+	 * @param request
+	 *            : MultipartHttpServletRequest auto passed
+	 * @return
 	 * @return LinkedList<FileMeta> as json format
-	 * @throws IOException 
-	 ****************************************************/	
-	@ActionMapping(params = "myActions=uploadMultipleFile")		
-    public void  upload(MultipartActionRequest request, ActionResponse response) throws IOException { 
-	
-	
+	 * @throws IOException
+	 ****************************************************/
+	@ActionMapping(params = "myActions=uploadMultipleFile")
+	public void upload(MultipartActionRequest request, ActionResponse response)
+			throws IOException {
+	/*	UploadPortletRequest uploadPortletRequest =
+				PortalUtil.getUploadPortletRequest(request);*/
+		Iterator<String> itr = request.getFileNames();
+		MultipartFile mpf = null;
 		
-    	 Iterator<String> itr =  request.getFileNames();
-		 MultipartFile mpf = null;	 
-		 //2. get each file
-		 while(itr.hasNext()){			 
-			 //2.1 get next MultipartFile
-			 mpf = request.getFile(itr.next()); 
-			 System.out.println(mpf.getOriginalFilename() +" uploaded! "+files.size());
-
-			 //2.2 if files > 10 remove the first from the list
-			 if(files.size() >= 10)				 
-				 files.pop();
-			 
-			 //2.3 create new fileMeta
-			 fileMeta = new FileMeta();
-			 fileMeta.setFileName(mpf.getOriginalFilename());
-			 fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
-			 fileMeta.setFileType(mpf.getContentType());
-			 System.err.println("mpf.getName()=="+mpf.getName());	
-			 response.addProperty("rus", "русский");
-			 try {
-				fileMeta.setBytes(mpf.getBytes());
-				
-				// copy file to local disk (make sure the path "e.g. D:/temp/files" exists)
-				FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream("D:/temp/files/"+mpf.getOriginalFilename()));
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 //2.4 add to files			 
-			 files.add(fileMeta);
-			 System.err.println("++++++++++++++++user.getPrimaryKey()=");
-			 System.err.println("++++++++++++"+getUserPk(request));
-			 eServicesServiceOracle.saveFile(getUserPk(request),mpf.getBytes(),mpf.getOriginalFilename(),mpf.getContentType(),mpf.getSize()/1024);
-		 }
-		 
+		// 2. get each file
+		while (itr.hasNext()) {
+			// 2.1 get next MultipartFile			
+			mpf = request.getFile(itr.next());
+			System.out.println(mpf.getOriginalFilename() + " uploaded! "
+					+ files.size());
+			System.err.println("++++++++++++user.getPrimaryKey()=" + getUserPk(request));
+			//TODO
+			setCURRENT_USER_PK(getUserPk(request));		
+		
+			// TODO 
+			eServicesServiceOracle.saveFile(getCURRENT_USER_PK(), mpf.getBytes(),
+					mpf.getOriginalFilename(), 
+					mpf.getContentType().equals(DOCX_CONTENT_TYPE)? DOC_CONTENT_TYPE:mpf.getContentType()
+					,(int) Math.floor(mpf.getSize() / 1024));
+		}
 	}
+
+	@ResourceMapping(value = "getFiles")
+	public void getFiles(ResourceRequest req, ResourceResponse resp)
+			throws IOException {
+		log.info("!!!!!getFiles");
+		String fileId = req.getParameter("fileName");
+		FileZapros file = eServicesServiceOracle.getFile(FileZapros.class,
+				Integer.valueOf(fileId));
+		log.info("!!!!!getFiles==" + fileId);	
+		byte[] usloviy = null;
+		if (file != null&&file.getFileSize()!=0) {
+			usloviy = file.getDocuments();
+			resp.setContentType(file.getFileType() + ";charset=ISO-8859-1");
+			//resp.setContentType(file.getFileType() + ";charset=UTF-8");
 	
-	@ResourceMapping(value ="getFiles")
-	public void getFiles(ResourceRequest req, ResourceResponse resp) throws IOException{
-		System.out.println("!!!!!getFiles");
-		String unp = req.getParameter("fileName");			
-		FileMeta exist =null;
-		for (FileMeta i : files) {
-			if (i.getFileName().equals(unp)){
-				exist=i;
-				break;
-			} 
+			resp.setContentLength(file.getFileSize());
+			resp.setProperty(HttpHeaders.CONTENT_DISPOSITION,
+					"attachment; filename=\"" + file.getFileName() + "\"");
+		} else {
+			usloviy = "NO data found".getBytes();
 		}
-		/*for (FileMeta i : files) {
-			System.out.println(i);
-		}
-		exist=files.getLast();*/
-		System.out.println("!!!!!getFiles");		
-		byte[] usloviy=null;
-		if (exist!=null){
-			  usloviy=exist.getBytes();
-			  resp.setContentType(exist.getFileType()+";charset=ISO-8859-1");	
-			  resp.setContentLength(exist.getBytes().length);
-			  resp.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+req.getParameter("fileName")+"\"");		  
-			     
-		}else {
-			usloviy="NO data found".getBytes();
-		}		  
 		OutputStream outStream = null;
-		  try {
-		   outStream = resp.getPortletOutputStream();
-		   outStream.write(usloviy);
-		   outStream.flush();
-		  } catch (IOException e) {
-		   e.printStackTrace();
-    	  } finally {
-		   if (outStream != null) {
-		    try {
-		     outStream.close();
-		    } catch (IOException e) {		  
-		     e.printStackTrace();
-		    }
-		   }		  
-		 }
-	   }
-	//TODO user?
-	 private long getUserPk(MultipartActionRequest request){
-			com.liferay.portal.model.User user;
-			long pk=0;
-			try {
-				user = PortalUtil.getUser(request);
-				if (user != null) {
-					 pk= user.getPrimaryKey();
-					 System.err.println("++++++++++++++++user.getPrimaryKey()="+pk);
-					throw new NullPointerException("curr User must be not null");
+		try {
+			outStream = resp.getPortletOutputStream();
+			outStream.write(usloviy);
+			outStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (outStream != null) {
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (PortalException | SystemException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			return pk;						
-	     }	
+		}
 	}
 
+	// TODO user?
+	private Integer getUserPk(PortletRequest request) {
+		com.liferay.portal.model.User user;
+		Integer pk = null;
+		try {
+			user = PortalUtil.getUser(request);
+			if (user != null) {
+				pk = (int) user.getPrimaryKey();
+				System.err.println("+++user.getPrimaryKey()=" + pk);
+				System.err.println("+++user.user.getUserId()="
+						+ user.getUserId());
+			} else {
+				throw new PortalException("User pk is null"); 
+			}
+		} catch (PortalException | SystemException e) {			
+			e.printStackTrace();
+		}
+		return pk;
+	}
 
-	
+	public Integer getCURRENT_USER_PK() {
+		return CURRENT_USER_PK;
+	}
 
+	public void setCURRENT_USER_PK(Integer cURRENT_USER_PK) {
+		CURRENT_USER_PK = cURRENT_USER_PK;
+		
+	}
+
+}
