@@ -23,6 +23,9 @@ import by.belisa.entitySqlServer.ResultNTI;
 public class ServiceDataNTD {
 	private  List<ResultNTI> resultNTIList;
 	private  List<Funding> fundingList;	
+	private  List<ResultNTI> copyResultNTIList;
+	
+
 	
 	public List<Funding> getFundingList() {
 		return fundingList;
@@ -34,8 +37,20 @@ public class ServiceDataNTD {
 		return resultNTIList;
 	}
 	public void setResultNTIList(List<ResultNTI> resultNTIList) {
-		this.resultNTIList = resultNTIList;
+		this.resultNTIList = resultNTIList;	
 	}
+	public List<ResultNTI> getCopyResultNTIList() {
+		return copyResultNTIList;
+	}
+	public void setCopyResultNTIList(List<ResultNTI> copyResultNTIList) {
+		this.copyResultNTIList = copyResultNTIList;
+	}
+	@Override
+	public String toString() {
+		return "ServiceDataNTD [resultNTIList=" + resultNTIList
+				+  ", copyResultNTIList="
+				+ copyResultNTIList + "]";
+	}	
 	
 	
 }

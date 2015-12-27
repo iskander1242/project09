@@ -35,6 +35,7 @@
 <portlet:resourceURL var="checkUnpUrl"></portlet:resourceURL>
 <%-- <portlet:resourceURL var="addFilesMy" id="addFiles"></portlet:resourceURL> --%>
 <portlet:resourceURL var="getFilesMy" id="getFiles"></portlet:resourceURL>
+<portlet:resourceURL var="delFile" id="delFile"></portlet:resourceURL>
 
 <a href="${serviceListUrl}">Вернуться к списку услуг!!!</a>
 
@@ -55,7 +56,8 @@
 			<th>File Name</th>
 			<th>File Size</th>
 			<th>File Type</th>
-			<th>Download</th>
+			<th>Загрузка</th>
+			<th>Удаление</th>
 		</tr>
 	</table>
 
@@ -137,10 +139,24 @@ function callServeResource(fileName){
 				alert('Complite!!!!'+textStatus);			
 		   } */
 		 });	
-}           
+}  
+
+
+function deleteFile(fileName){	
+	var data = {"fileName": fileName};
+	$.ajax({
+		   url: '${delFile}',
+		   data: data,
+		   success: function (data) {		
+			//window.open(this.url)
+			showDataLocal();
+	       }	      
+		 });	
+} 
 
  function showDataLocal(){  
-	//alert('Su');  
+	//alert('Su');
+	alert("${type}");
 	var data = {"unp": 50};
 	$.ajax({
 	   url: '${checkUnpUrl}',
@@ -154,6 +170,11 @@ function callServeResource(fileName){
 			$jQueryObject.click(function(){
 				callServeResource($($jQueryObject).val())
 			});
+			var deleteString = "<button  id='btnLoad' value='"+file.id+"'>Удалить</button>";
+			var $jQueryDeleteObject = $($.parseHTML(deleteString));
+			$jQueryDeleteObject.click(function(){
+				deleteFile($($jQueryDeleteObject).val())
+			});
 			/* var myString = "<button  id='btnDel' value='"+file.id+"'>Удалить</button>";
 			var $jQueryObjectDel = $($.parseHTML(myString));
 			$jQueryObject.click(function(){
@@ -166,6 +187,7 @@ function callServeResource(fileName){
             		.append($('<td/>').text(file.fileSize))
             		.append($('<td/>').text(file.fileType))
             		.append($('<td/>').append($jQueryObject))
+            		.append($('<td/>').append($jQueryDeleteObject))
             		)
          });       
         }

@@ -181,7 +181,7 @@ public class EServicesDaoSqlServer extends DaoImplSec<Services, Integer>{
 
 	serviceDataNTD.setResultNTIList(resultNTIList);
 	serviceDataNTD.setFundingList(fundingList);
-	
+	serviceDataNTD.setCopyResultNTIList(resultNTIList);
 	return serviceDataNTD;
 	}
 

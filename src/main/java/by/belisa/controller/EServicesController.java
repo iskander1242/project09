@@ -86,15 +86,20 @@ public class EServicesController {
 			+ "vnd.openxmlformats-officedocument.wordprocessingml.document";
 
 	private static enum ServiceType {
-		jeneralService(53), extendedService(52);
+		jeneralService(53), 
+		extendedService(52),
+		preparationForRegistrarionService(59),
+        receptionKitService(60),
+        preparationProjectKidService(61),
+        receptionKitElDocumentsService(62);
 
-		ServiceType(int type) {
+		ServiceType(long type) {
 			this.type = type;
 		}
 
-		private int type;
+		private long type;
 
-		public int getType() {
+		public long getType() {
 			return type;
 		}
 	}
@@ -122,6 +127,8 @@ public class EServicesController {
 	private FileMeta fileMeta = null;
 	private Integer CURRENT_USER_PK;
 
+	private long currentServiceID;
+
 	@RenderMapping
 	public String renderServiceList(Model model, PortletRequest request) {
 		List<Services> servicesList = eServicesServiceOracle
@@ -134,9 +141,14 @@ public class EServicesController {
 	}
 
 	@RenderMapping(params = "view=eServiceUpload")
-	public String renderServiceUpload() {
+	public String renderServiceUpload(Model model, RenderRequest request) {
+		System.out.println("+++++++++++++++++"
+				+ request.getParameter("type"));
+		model.addAttribute("type",
+				ServiceType.valueOf(request.getParameter("type")).getType());
+		setCurrentServiceType(ServiceType.valueOf(request.getParameter("type")).getType());
 		return "eServiceUpload";
-	}
+	}	
 
 	@RenderMapping(params = "view=eServices")
 	public String renderView(Model model, RenderRequest request)
@@ -158,8 +170,7 @@ public class EServicesController {
 		} catch (SystemException e) {
 			e.printStackTrace();
 		}		
-		model.addAttribute("type",
-				ServiceType.valueOf(request.getParameter("type")).getType());
+		model.addAttribute("type",ServiceType.valueOf(request.getParameter("type")).getType());
 		model.addAttribute("anketa", anketaDTO);
 		return "eServices";
 	}
@@ -193,7 +204,6 @@ public class EServicesController {
 	}
 
 	@ResourceMapping
-	// @ResourceMapping(value ="addFiles")
 	public void checkUnp(ResourceRequest req, ResourceResponse resp)
 			throws IOException {
 		System.out.println("!!!!checkUnp");
@@ -217,12 +227,13 @@ public class EServicesController {
 		case 51:
 			ServiceDataNTD serviceDataNTD = eServicesServiceSqlServers
 					.getService02(dfrom);
+			System.err.println(serviceDataNTD.toString());
 			objectFoSerialize = serviceDataNTD;
 			break;
 		case 50:			
 			System.out.println("++++getCURRENT_USER_PK()="+getCURRENT_USER_PK());
 			setCURRENT_USER_PK(getUserPk(req));
-			objectFoSerialize = eServicesServiceOracle.getAllFile(getCURRENT_USER_PK());
+			objectFoSerialize = eServicesServiceOracle.getAllFile(getCURRENT_USER_PK(),getCurrentServiceType());
 			break;
 		default:
 			throw new IllegalArgumentException();
@@ -248,10 +259,8 @@ public class EServicesController {
 	 ****************************************************/
 	@ActionMapping(params = "myActions=uploadMultipleFile")
 	public void upload(MultipartActionRequest request, ActionResponse response)
-			throws IOException {
-	/*	UploadPortletRequest uploadPortletRequest =
-				PortalUtil.getUploadPortletRequest(request);*/
-		Iterator<String> itr = request.getFileNames();
+			throws IOException {	
+		Iterator<String> itr = request.getFileNames();		
 		MultipartFile mpf = null;
 		
 		// 2. get each file
@@ -268,12 +277,12 @@ public class EServicesController {
 			eServicesServiceOracle.saveFile(getCURRENT_USER_PK(), mpf.getBytes(),
 					mpf.getOriginalFilename(), 
 					mpf.getContentType().equals(DOCX_CONTENT_TYPE)? DOC_CONTENT_TYPE:mpf.getContentType()
-					,(int) Math.floor(mpf.getSize() / 1024));
+					,(int) Math.floor(mpf.getSize() / 1024),getCurrentServiceType());
 		}
 	}
 
-	@ResourceMapping(value = "getFiles")
-	public void getFiles(ResourceRequest req, ResourceResponse resp)
+	@ResourceMapping(value = "getFile")
+	public void getFile(ResourceRequest req, ResourceResponse resp)
 			throws IOException {
 		log.info("!!!!!getFiles");
 		String fileId = req.getParameter("fileName");
@@ -309,6 +318,16 @@ public class EServicesController {
 			}
 		}
 	}
+	
+	
+	@ResourceMapping(value = "delFile")
+	public void delFile(ResourceRequest req, ResourceResponse resp)
+			throws IOException {
+		String fileId = req.getParameter("fileName");
+		eServicesServiceOracle.delFile(FileZapros.class,Integer.valueOf(fileId));
+	}
+	
+	
 
 	// TODO user?
 	private Integer getUserPk(PortletRequest request) {
@@ -338,5 +357,14 @@ public class EServicesController {
 		CURRENT_USER_PK = cURRENT_USER_PK;
 		
 	}
+	
+	private void setCurrentServiceType(long currentServiceID) {
+		System.err.println("currentServiceType="+currentServiceID);
+		this.currentServiceID=currentServiceID;		
+	}
 
+	public long getCurrentServiceType() {
+		System.err.println("+++++++++++++getCurrentServiceType() currentServiceType="+currentServiceID);
+		return currentServiceID;
+	}
 }

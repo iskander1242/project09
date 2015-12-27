@@ -43,17 +43,26 @@ public class EServicesServiceOracle extends ServiceImpl<Services, Integer>{
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
-	public void saveFile(Integer userPk,byte[] fileStream, String fileName, String contentType, Integer size){
-		((EServicesDao)baseDao).saveFile(userPk, fileStream,fileName,contentType,size);;
+	public void saveFile(Integer userPk,byte[] fileStream, String fileName, String contentType, Integer size, Long serviceId){
+		((EServicesDao)baseDao).saveFile(userPk, fileStream,fileName,contentType,size,serviceId);
 	}
 	
-	public List<FileResult> getAllFile(Integer integer){
-		return  ((EServicesDao)baseDao).getAllFiles(integer);
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<FileResult> getAllFile(Integer integer, long serviseID){
+		return  ((EServicesDao)baseDao).getAllFiles(integer,serviseID);
 	}
 
     @SuppressWarnings("unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public FileZapros getFile(Class<FileZapros> fileClass, Integer id) {
 			return ((EServicesDao)baseDao).getFile(fileClass, id);
+	}
+    
+
+    @SuppressWarnings("unchecked")
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+	public boolean delFile(Class<FileZapros> fileClass, Integer id) {
+			return ((EServicesDao)baseDao).delFile(fileClass, id);
 	}
 	
 }

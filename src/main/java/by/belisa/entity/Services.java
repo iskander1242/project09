@@ -98,7 +98,7 @@ public class Services implements Serializable{
 	private Long moderation;
 	
 	
-	@Column(name="INFO_SYSTEM")
+	//@Column(name="INFO_SYSTEM")
 	private String infoSystem;
 	@Column(name="SHIFR")
 	private String shifr;
