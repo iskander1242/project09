@@ -35,11 +35,11 @@
 <aui:form method="POST" action="${sendForm}" name="anketa"  >
 	<aui:input name="dfrom" label="Дата начала выборки"  bean="anketa" onchange="showDfrom(this.value)">
 		<aui:validator name="required" />
-		<aui:validator name="custom" errorMessage="Формат даты гггг-мм-дд">
+		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {
 							var result = false;
 							
-							if (val == '' || val.search(/^\d{4}-\d{2}-\d{2}$/)!=-1){
+							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
 								result = true;
 							}
 							return result;
@@ -48,11 +48,11 @@
 	</aui:input>
 	<aui:input name="dto" label="Дата завершения выборки"   bean="anketa"  onchange="showDto(this.value)">
 		<aui:validator name="required" />
-		<aui:validator name="custom" errorMessage="Формат даты гггг-мм-дд">
+		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {
 							var result = false;
 							
-							if (val == '' || val.search(/^\d{4}-\d{2}-\d{2}$/)!=-1){
+							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
 								result = true;
 							}		
 							return result;

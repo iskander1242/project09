@@ -1,5 +1,6 @@
 package by.belisa.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,12 @@ public class EServicesServiceSqlServer extends ServiceImpl<Services, Integer>{
 	}
 	
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ServiceData getService01Res(String dfrom, String dto){
+	public ServiceData getService01Res(String dfrom, String dto) throws ParseException{
 		 return ((EServicesDaoSqlServer)baseDao).getRes(dfrom, dto);
 	}
     
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ServiceDataExt getService01ResExt(String dfrom, String dto){
+	public ServiceDataExt getService01ResExt(String dfrom, String dto) throws ParseException{
 		 return ((EServicesDaoSqlServer)baseDao).getResExt(dfrom, dto);
 	}
     
